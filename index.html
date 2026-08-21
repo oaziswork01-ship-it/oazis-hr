@@ -48,6 +48,9 @@
   .kpi .val{font-size:30px; font-weight:800; letter-spacing:-.02em; margin-top:6px; line-height:1}
   .kpi .sub{font-size:12px; color:var(--muted); margin-top:6px}
   .kpi .sub.g{color:var(--good)} .kpi .sub.b{color:var(--bad)} .kpi .sub.w{color:var(--warn)}
+  .minis{display:grid; gap:14px; grid-template-columns:repeat(3,1fr); margin-bottom:20px}
+  @media(max-width:600px){.minis{grid-template-columns:1fr}}
+  .stage .n.wide{flex-basis:96px}
   .stage{display:flex; align-items:center; gap:14px; padding:9px 0; border-top:1px solid var(--line)}
   .stage:first-child{border-top:0}
   .stage .name{flex:0 0 118px; font-size:13.5px}
@@ -107,6 +110,18 @@
   .gate-card button{width:100%; margin-top:20px; padding:12px; border:0; border-radius:10px; background:var(--olive); color:#fff; font-size:15px; font-weight:700; font-family:var(--sans); cursor:pointer; letter-spacing:.02em}
   .gate-card button:hover{background:#57582f}
   .gate-err{color:var(--bad); font-size:13px; margin-top:12px; min-height:18px}
+  /* навигация по блокам */
+  html{scroll-behavior:smooth}
+  .nav{position:sticky; top:0; z-index:50; display:flex; gap:6px; overflow-x:auto; padding:11px 0; margin:2px 0 22px; background:var(--cream); border-bottom:1px solid var(--line); -webkit-overflow-scrolling:touch}
+  .nav a{flex:0 0 auto; text-decoration:none; font-size:13px; font-weight:600; color:var(--muted); padding:7px 14px; border-radius:20px; border:1px solid var(--line); white-space:nowrap; background:var(--surface)}
+  .nav a:hover{color:var(--ink); border-color:var(--faint)}
+  .nav a.active{color:#fff; background:var(--olive); border-color:var(--olive)}
+  .block{scroll-margin-top:66px; margin-bottom:36px}
+  .block-head{display:flex; align-items:baseline; gap:12px; margin:4px 0 16px; padding-bottom:9px; border-bottom:2px solid var(--ink)}
+  .block-head .bnum{font-size:12px; font-weight:800; color:var(--olive); letter-spacing:.1em; font-variant-numeric:tabular-nums}
+  .block-head h2{font-size:clamp(19px,3vw,23px); font-weight:800; margin:0; letter-spacing:-.01em}
+  .block-head .bsub{margin-left:auto; font-size:12.5px; color:var(--muted); text-align:right}
+  @media(max-width:560px){.block-head .bsub{display:none}}
 </style>
 </head>
 <body class="locked">
@@ -130,52 +145,85 @@
     <div class="status snap" id="status"><span class="d"></span><span id="status-txt">Загрузка…</span></div>
   </header>
 
-  <section class="kpis" id="kpis"></section>
+  <nav class="nav">
+    <a href="#b-overview">Обзор</a>
+    <a href="#b-funnel">Воронка</a>
+    <a href="#b-hiring">Приём/увольнения</a>
+    <a href="#b-cost">Стоимость</a>
+    <a href="#b-depts">Отделы</a>
+    <a href="#b-income">Доход агентов</a>
+  </nav>
 
-  <section class="grid">
+  <section class="block" id="b-overview">
+    <div class="block-head"><span class="bnum">01</span><h2>Обзор</h2><span class="bsub">ключевые цифры на сегодня</span></div>
+    <div class="kpis" id="kpis"></div>
+  </section>
+
+  <section class="block" id="b-funnel">
+    <div class="block-head"><span class="bnum">02</span><h2>Воронка найма</h2><span class="bsub" id="funnel-eyebrow">Воронка</span></div>
     <div class="card">
-      <p class="eyebrow" id="funnel-eyebrow">Воронка</p>
-      <h2>От отклика до закрепления</h2>
+      <p class="eyebrow">От отклика до закрепления</p>
       <div id="funnel"></div>
-      <p class="note">Конверсия указана от предыдущего этапа.</p>
+      <p class="note">Конверсия указана от предыдущего этапа. Динамика конверсий по месяцам будет накапливаться по мере ввода данных.</p>
     </div>
+  </section>
+
+  <section class="block" id="b-hiring">
+    <div class="block-head"><span class="bnum">03</span><h2>Приём и увольнения</h2><span class="bsub">динамика по месяцам · 2026</span></div>
     <div class="card">
-      <p class="eyebrow">Источники · 2026</p>
-      <h2>Откуда пришли принятые</h2>
+      <p class="eyebrow">По месяцам</p>
+      <div class="bars" id="bars"></div>
+      <div class="chart-legend">
+        <span><span class="dot" style="background:var(--olive)"></span> Принято</span>
+        <span><span class="dot" style="background:var(--bad)"></span> Уволено</span>
+      </div>
+      <p class="note" id="bars-note"></p>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <p class="eyebrow">Источники принятых · 2026</p>
       <div class="donut-wrap">
         <div class="donut" id="donut" role="img" aria-label="источники принятых"></div>
         <ul class="legend num" id="donut-legend"></ul>
       </div>
-      <p class="note">Доли принятых по каналам за год.</p>
     </div>
   </section>
 
-  <section class="card">
-    <p class="eyebrow">Динамика · 2026</p>
-    <h2>Приём и увольнения по месяцам</h2>
-    <div class="bars" id="bars"></div>
-    <div class="chart-legend">
-      <span><span class="dot" style="background:var(--olive)"></span> Принято</span>
-      <span><span class="dot" style="background:var(--bad)"></span> Уволено</span>
-    </div>
-    <p class="note" id="bars-note"></p>
-  </section>
-
-  <section class="grid">
+  <section class="block" id="b-cost">
+    <div class="block-head"><span class="bnum">04</span><h2>Стоимость найма</h2><span class="bsub">последние 3 месяца</span></div>
     <div class="card">
-      <p class="eyebrow">Экономика</p>
-      <h2>Стоимость найма</h2>
+      <p class="eyebrow">Стоимость 1 сотрудника</p>
       <div class="cost-row" id="cost"></div>
-      <p class="note">Стоимость 1 сотрудника = расход отдела ÷ выведено.</p>
+      <p class="note">Стоимость 1 сотрудника = расход отдела ÷ выведено. Тренд достраивается с каждым новым месяцем.</p>
     </div>
+  </section>
+
+  <section class="block" id="b-depts">
+    <div class="block-head"><span class="bnum">05</span><h2>Отделы</h2><span class="bsub">найм и текучка · накопительно</span></div>
     <div class="card">
-      <p class="eyebrow">Отделы · накопительно</p>
-      <h2>Найм и текучка по руководителям</h2>
       <table class="num">
         <thead><tr><th>Отдел</th><th>Принято</th><th>Уволено</th><th>Текучка</th><th>Статус</th></tr></thead>
         <tbody id="depts"></tbody>
       </table>
       <p class="note">Накопительно. Отделы Атанесова, Нисова, Мамбеталиева исключены из учёта.</p>
+    </div>
+  </section>
+
+  <section class="block" id="b-income">
+    <div class="block-head"><span class="bnum">06</span><h2>Доход агентов</h2><span class="bsub">средний доход по стажу</span></div>
+    <div class="card">
+    <div class="minis">
+      <div class="kpi g"><div class="lbl">Доход агента 12+ мес</div><div class="val num">1,67 млн ₽</div><div class="sub g">в среднем за период</div></div>
+      <div class="kpi"><div class="lbl">Рост к зрелости</div><div class="val num">×400</div><div class="sub">старт → 12+ мес</div></div>
+      <div class="kpi"><div class="lbl">Вышли на сделки</div><div class="val num">75%</div><div class="sub">24 из 32 агентов</div></div>
+    </div>
+    <div>
+      <div class="stage"><div class="name">0–2 мес</div><div class="track"><div class="fill" style="width:6%"></div></div><div class="n wide num">4 тыс ₽</div></div>
+      <div class="stage"><div class="name">3–4 мес</div><div class="track"><div class="fill" style="width:6%"></div></div><div class="n wide num">57 тыс ₽</div></div>
+      <div class="stage"><div class="name">5–6 мес</div><div class="track"><div class="fill" style="width:9%"></div></div><div class="n wide num">100 тыс ₽</div></div>
+      <div class="stage"><div class="name">7–12 мес</div><div class="track"><div class="fill" style="width:34%"></div></div><div class="n wide num">567 тыс ₽</div></div>
+      <div class="stage"><div class="name">12+ мес</div><div class="track"><div class="fill" style="width:100%"></div></div><div class="n wide num">1,67 млн ₽</div></div>
+    </div>
+    <p class="note">Средний доход в окне стажа (32 агента). Заметный доход появляется к 7–12 месяцам, зрелые агенты (12+ мес) приносят в среднем 1,67 млн ₽. Вывод: удержание и адаптация напрямую влияют на выручку.</p>
     </div>
   </section>
 
@@ -482,6 +530,20 @@ if(CONFIG.sheetId){
       setStatus("snap","Не удалось прочитать таблицу — показаны последние данные");
     });
 }
+
+/* подсветка активного пункта меню при прокрутке */
+(function(){
+  var links = Array.prototype.slice.call(document.querySelectorAll(".nav a"));
+  var blocks = links.map(function(a){ return document.getElementById(a.getAttribute("href").slice(1)); }).filter(Boolean);
+  function setActive(id){ links.forEach(function(a){ a.classList.toggle("active", a.getAttribute("href").slice(1)===id); }); }
+  if("IntersectionObserver" in window){
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting) setActive(en.target.id); });
+    }, {rootMargin:"-45% 0px -50% 0px", threshold:0});
+    blocks.forEach(function(b){ obs.observe(b); });
+  }
+  if(links[0]) links[0].classList.add("active");
+})();
 </script>
 </body>
 </html>
