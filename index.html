@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HR-дашборд · Oazis Estate</title>
+<style>
+  :root{
+    --cream:#F2EFE6; --surface:#FBF8F0; --surface2:#F7F3E9;
+    --ink:#1C1A17; --muted:#6B6A5A; --faint:#9A9A6A;
+    --olive:#6B6B3A; --olive-soft:#9A9A6A; --olive-pale:#C7C08F;
+    --line:#DCD7C8;
+    --good:#3F6B3A; --good-bg:#E3ECDD;
+    --bad:#B23A2E;  --bad-bg:#F3DEDA;
+    --warn:#C77D2E; --warn-bg:#F4E7D5;
+    --sans:Arial,Helvetica,"Segoe UI",sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{color-scheme:light}
+  body{margin:0; background:var(--cream)}
+  .wrap{
+    font-family:var(--sans); color:var(--ink);
+    padding:clamp(16px,4vw,40px); max-width:1120px; margin:0 auto;
+    font-size:15px; line-height:1.45; -webkit-font-smoothing:antialiased;
+  }
+  .num{font-variant-numeric:tabular-nums}
+  header{margin-bottom:22px}
+  .brand{font-size:12px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--olive)}
+  .brand span{color:var(--faint); font-weight:400; letter-spacing:.14em}
+  h1{font-size:clamp(24px,4vw,34px); font-weight:800; letter-spacing:-.01em; margin:.35em 0 .15em; text-wrap:balance}
+  .period{color:var(--muted); font-size:13.5px}
+  .status{display:inline-flex; align-items:center; gap:7px; font-size:12px; margin-top:10px; padding:4px 11px; border-radius:20px; border:1px solid var(--line); background:var(--surface); color:var(--muted)}
+  .status .d{width:8px;height:8px;border-radius:50%;background:var(--faint)}
+  .status.live .d{background:var(--good)} .status.snap .d{background:var(--warn)}
+  .eyebrow{font-size:11px; font-weight:700; letter-spacing:.15em; text-transform:uppercase; color:var(--olive); margin:0 0 2px}
+  .card h2{font-size:17px; font-weight:800; margin:0 0 16px; letter-spacing:-.01em}
+  .card{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:20px 22px}
+  section{margin-bottom:18px}
+  .grid{display:grid; gap:18px; grid-template-columns:1fr 1fr}
+  @media(max-width:720px){.grid{grid-template-columns:1fr}}
+  .kpis{display:grid; gap:14px; grid-template-columns:repeat(5,1fr)}
+  @media(max-width:860px){.kpis{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:420px){.kpis{grid-template-columns:1fr}}
+  .kpi{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:16px 18px; position:relative; overflow:hidden}
+  .kpi::before{content:""; position:absolute; left:0; top:0; bottom:0; width:4px; background:var(--olive)}
+  .kpi.g::before{background:var(--good)} .kpi.b::before{background:var(--bad)} .kpi.w::before{background:var(--warn)}
+  .kpi .lbl{font-size:11.5px; text-transform:uppercase; letter-spacing:.09em; color:var(--muted); font-weight:600}
+  .kpi .val{font-size:30px; font-weight:800; letter-spacing:-.02em; margin-top:6px; line-height:1}
+  .kpi .sub{font-size:12px; color:var(--muted); margin-top:6px}
+  .kpi .sub.g{color:var(--good)} .kpi .sub.b{color:var(--bad)} .kpi .sub.w{color:var(--warn)}
+  .stage{display:flex; align-items:center; gap:14px; padding:9px 0; border-top:1px solid var(--line)}
+  .stage:first-child{border-top:0}
+  .stage .name{flex:0 0 118px; font-size:13.5px}
+  .stage .track{flex:1; height:26px; background:var(--surface2); border-radius:6px; overflow:hidden}
+  .stage .fill{height:100%; background:var(--olive); border-radius:6px; min-width:8px}
+  .stage .n{flex:0 0 54px; text-align:right; font-weight:800; font-size:16px}
+  .conv{flex:0 0 60px; text-align:right; font-size:12px; color:var(--muted)}
+  .conv b{color:var(--good); font-weight:700}
+  .donut-wrap{display:flex; align-items:center; gap:22px; flex-wrap:wrap}
+  .donut{width:150px; height:150px; border-radius:50%; flex:0 0 auto;
+    -webkit-mask:radial-gradient(circle 44px at 50% 50%, transparent 98%, #000 100%);
+            mask:radial-gradient(circle 44px at 50% 50%, transparent 98%, #000 100%);}
+  .legend{list-style:none; margin:0; padding:0; font-size:14px; min-width:170px}
+  .legend li{display:flex; align-items:center; gap:9px; padding:5px 0; border-bottom:1px solid var(--line)}
+  .legend li:last-child{border-bottom:0}
+  .dot{width:12px;height:12px;border-radius:3px;flex:0 0 auto}
+  .legend .pct{margin-left:auto; font-weight:800}
+  .bars{display:flex; align-items:flex-end; gap:clamp(6px,2.4vw,20px); height:190px; padding-top:20px}
+  .grp{flex:1; display:flex; flex-direction:column; align-items:center; height:100%; justify-content:flex-end}
+  .pair{display:flex; align-items:flex-end; gap:5px; height:150px; width:100%; justify-content:center}
+  .bar{width:clamp(12px,3vw,26px); border-radius:5px 5px 0 0; position:relative}
+  .bar.in{background:var(--olive)} .bar.out{background:var(--bad)}
+  .bar .t{position:absolute; top:-17px; left:50%; transform:translateX(-50%); font-size:12px; font-weight:700}
+  .grp .m{font-size:12px; color:var(--muted); margin-top:8px}
+  .chart-legend{display:flex; gap:18px; font-size:12.5px; color:var(--muted); margin-top:14px}
+  .chart-legend span{display:inline-flex; align-items:center; gap:7px}
+  .cost-row{display:flex; align-items:flex-end; gap:16px; height:150px; padding-top:24px}
+  .cost-col{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%}
+  .cost-bar{width:100%; max-width:70px; background:linear-gradient(180deg,var(--olive),#57582f); border-radius:7px 7px 0 0; position:relative}
+  .cost-bar .cv{position:absolute; top:-20px; left:50%; transform:translateX(-50%); font-size:12.5px; font-weight:800; white-space:nowrap}
+  .cost-col .cm{font-size:12.5px; color:var(--muted); margin-top:8px}
+  .cost-col .cd{font-size:11px; color:var(--faint)}
+  table{width:100%; border-collapse:collapse; font-size:14px}
+  th,td{padding:10px 8px; text-align:right}
+  th:first-child,td:first-child{text-align:left}
+  thead th{font-size:11.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); font-weight:700; border-bottom:2px solid var(--ink)}
+  tbody tr{border-bottom:1px solid var(--line)}
+  tbody tr:last-child{border-bottom:0}
+  td .chip{display:inline-block; padding:3px 10px; border-radius:20px; font-size:11.5px; font-weight:700}
+  .chip.g{background:var(--good-bg); color:var(--good)}
+  .chip.b{background:var(--bad-bg); color:var(--bad)}
+  .chip.w{background:var(--warn-bg); color:var(--warn)}
+  .note{font-size:12px; color:var(--faint); margin-top:12px}
+  footer{margin-top:26px; padding-top:16px; border-top:1px solid var(--line); display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; font-size:12px; color:var(--faint); letter-spacing:.04em}
+  footer .r{text-transform:uppercase}
+  /* вход */
+  #gate{position:fixed; inset:0; z-index:100; background:var(--cream); display:flex; align-items:center; justify-content:center; padding:20px}
+  body:not(.locked) #gate{display:none}
+  body.locked .wrap{display:none}
+  .gate-card{background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:clamp(26px,5vw,34px); width:100%; max-width:350px; box-shadow:0 12px 44px rgba(28,26,23,.08)}
+  .gate-card .brand{font-size:12px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--olive)}
+  .gate-card .brand span{color:var(--faint); font-weight:400}
+  .gate-card h2{font-size:21px; font-weight:800; margin:.25em 0 18px; letter-spacing:-.01em}
+  .gate-card label{display:block; font-size:11.5px; color:var(--muted); font-weight:600; margin:13px 0 5px; text-transform:uppercase; letter-spacing:.07em}
+  .gate-card input{width:100%; padding:11px 13px; border:1px solid var(--line); border-radius:10px; font-size:15px; font-family:var(--sans); background:var(--cream); color:var(--ink)}
+  .gate-card input:focus{outline:2px solid var(--olive); outline-offset:1px; border-color:var(--olive)}
+  .gate-card button{width:100%; margin-top:20px; padding:12px; border:0; border-radius:10px; background:var(--olive); color:#fff; font-size:15px; font-weight:700; font-family:var(--sans); cursor:pointer; letter-spacing:.02em}
+  .gate-card button:hover{background:#57582f}
+  .gate-err{color:var(--bad); font-size:13px; margin-top:12px; min-height:18px}
+</style>
+</head>
+<body class="locked">
+<div id="gate">
+  <form class="gate-card" id="gate-form" autocomplete="on">
+    <div class="brand">Oazis Estate · <span>HR</span></div>
+    <h2>Вход в дашборд</h2>
+    <label for="g-user">Логин</label>
+    <input id="g-user" type="text" autocomplete="username" autofocus>
+    <label for="g-pass">Пароль</label>
+    <input id="g-pass" type="password" autocomplete="current-password">
+    <button type="submit">Войти</button>
+    <div class="gate-err" id="g-err"></div>
+  </form>
+</div>
+<div class="wrap">
+  <header>
+    <div class="brand">Oazis Estate · <span>агентство недвижимости</span></div>
+    <h1>HR-дашборд · найм 2026</h1>
+    <div class="period" id="period">Динамика найма, воронка, бюджет и отделы</div>
+    <div class="status snap" id="status"><span class="d"></span><span id="status-txt">Загрузка…</span></div>
+  </header>
+
+  <section class="kpis" id="kpis"></section>
+
+  <section class="grid">
+    <div class="card">
+      <p class="eyebrow" id="funnel-eyebrow">Воронка</p>
+      <h2>От отклика до закрепления</h2>
+      <div id="funnel"></div>
+      <p class="note">Конверсия указана от предыдущего этапа.</p>
+    </div>
+    <div class="card">
+      <p class="eyebrow">Источники · 2026</p>
+      <h2>Откуда пришли принятые</h2>
+      <div class="donut-wrap">
+        <div class="donut" id="donut" role="img" aria-label="источники принятых"></div>
+        <ul class="legend num" id="donut-legend"></ul>
+      </div>
+      <p class="note">Доли принятых по каналам за год.</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <p class="eyebrow">Динамика · 2026</p>
+    <h2>Приём и увольнения по месяцам</h2>
+    <div class="bars" id="bars"></div>
+    <div class="chart-legend">
+      <span><span class="dot" style="background:var(--olive)"></span> Принято</span>
+      <span><span class="dot" style="background:var(--bad)"></span> Уволено</span>
+    </div>
+    <p class="note" id="bars-note"></p>
+  </section>
+
+  <section class="grid">
+    <div class="card">
+      <p class="eyebrow">Экономика</p>
+      <h2>Стоимость найма</h2>
+      <div class="cost-row" id="cost"></div>
+      <p class="note">Стоимость 1 сотрудника = расход отдела ÷ выведено.</p>
+    </div>
+    <div class="card">
+      <p class="eyebrow">Отделы · накопительно</p>
+      <h2>Найм и текучка по руководителям</h2>
+      <table class="num">
+        <thead><tr><th>Отдел</th><th>Принято</th><th>Уволено</th><th>Текучка</th><th>Статус</th></tr></thead>
+        <tbody id="depts"></tbody>
+      </table>
+      <p class="note">Накопительно. Отделы Атанесова, Нисова, Мамбеталиева исключены из учёта.</p>
+    </div>
+  </section>
+
+  <footer>
+    <span>oazis.estate · HR-аналитика</span>
+    <span class="r" id="updated">актуально на 2026</span>
+  </footer>
+</div>
+
+<script>
+/* ================== НАСТРОЙКА ИСТОЧНИКА ДАННЫХ ==================
+   Когда таблица будет опубликована, впиши сюда её ID и имена листов —
+   и сайт начнёт читать цифры из Google-таблицы сам.
+   ID берётся из ссылки: docs.google.com/spreadsheets/d/<ВОТ_ЭТО>/edit
+================================================================= */
+var CONFIG = {
+  sheetId: "",                 // <-- сюда ID Google-таблицы (пусто = показывать встроенные цифры)
+  monthsTab: "HR-данные",      // лист с помесячными данными
+  deptsTab:  "Отделы",         // лист со сводкой по отделам
+  auth: {
+    enabled: true,
+    user: "oazis",             // логин (по умолчанию: oazis / oazis2026)
+    passHash: "5c91ccecd776ce00ad8e1bf2e9f9160b5085e5e4bcc1afcbdb168078be9f4cd4", // SHA-256 пароля
+    remember: true             // не спрашивать повторно в этой сессии браузера
+  }
+};
+
+/* SHA-256 (для проверки пароля без хранения его в открытом виде) */
+function sha256(ascii){
+  function rr(n,x){return (x>>>n)|(x<<(32-n));}
+  var maxW=Math.pow(2,32), H=[], K=[], i,j;
+  function isP(n){for(var f=2;f*f<=n;f++)if(n%f<1)return false;return n>1;}
+  var pr=[],n=2; while(pr.length<64){ if(isP(n))pr.push(n); n++; }
+  for(i=0;i<8;i++) H[i]=Math.floor((Math.pow(pr[i],0.5)%1)*maxW)>>>0;
+  for(i=0;i<64;i++) K[i]=Math.floor((Math.pow(pr[i],1/3)%1)*maxW)>>>0;
+  var msg=unescape(encodeURIComponent(ascii)), words=[], len=msg.length;
+  for(i=0;i<len;i++) words[i>>2]|=(msg.charCodeAt(i)&0xff)<<((3-(i%4))*8);
+  words[len>>2]|=0x80<<((3-(len%4))*8);
+  words[((len+8>>6)+1)*16-1]=len*8;
+  var w=[],a,b,cc,d,e,f,g,h,t1,t2;
+  for(j=0;j<words.length;j+=16){
+    a=H[0];b=H[1];cc=H[2];d=H[3];e=H[4];f=H[5];g=H[6];h=H[7];
+    for(i=0;i<64;i++){
+      if(i<16) w[i]=words[j+i]|0;
+      else{ var s0=rr(7,w[i-15])^rr(18,w[i-15])^(w[i-15]>>>3);
+            var s1=rr(17,w[i-2])^rr(19,w[i-2])^(w[i-2]>>>10);
+            w[i]=(w[i-16]+s0+w[i-7]+s1)|0; }
+      var S1=rr(6,e)^rr(11,e)^rr(25,e), ch=(e&f)^(~e&g);
+      t1=(h+S1+ch+K[i]+w[i])|0;
+      var S0=rr(2,a)^rr(13,a)^rr(22,a), mj=(a&b)^(a&cc)^(b&cc);
+      t2=(S0+mj)|0;
+      h=g;g=f;f=e;e=(d+t1)|0;d=cc;cc=b;b=a;a=(t1+t2)|0;
+    }
+    H[0]=(H[0]+a)|0;H[1]=(H[1]+b)|0;H[2]=(H[2]+cc)|0;H[3]=(H[3]+d)|0;
+    H[4]=(H[4]+e)|0;H[5]=(H[5]+f)|0;H[6]=(H[6]+g)|0;H[7]=(H[7]+h)|0;
+  }
+  var out=""; for(i=0;i<8;i++) out+=((H[i]>>>0).toString(16)).padStart(8,"0"); return out;
+}
+
+/* Вход */
+(function initAuth(){
+  var A=CONFIG.auth;
+  if(!A || !A.enabled){ document.body.classList.remove("locked"); return; }
+  try{ if(sessionStorage.getItem("oazis_hr_auth")==="1"){ document.body.classList.remove("locked"); return; } }catch(e){}
+  var form=document.getElementById("gate-form");
+  form.addEventListener("submit", function(ev){
+    ev.preventDefault();
+    var u=(document.getElementById("g-user").value||"").trim().toLowerCase();
+    var p=document.getElementById("g-pass").value||"";
+    if(u===A.user.toLowerCase() && sha256(p)===A.passHash){
+      try{ if(A.remember) sessionStorage.setItem("oazis_hr_auth","1"); }catch(e){}
+      document.body.classList.remove("locked");
+    } else {
+      document.getElementById("g-err").textContent="Неверный логин или пароль";
+      document.getElementById("g-pass").value="";
+    }
+  });
+})();
+
+/* Встроенный снимок (используется, пока не подключена живая таблица) */
+var SNAPSHOT = {
+  months: [
+    {ym:"2026-01", vac:null, resp:null, inv:null, meet:null, out:4,  fix:null, hh:2, ref:1, soc:0, fired:3, spend:null,   reviews:null},
+    {ym:"2026-02", vac:null, resp:null, inv:null, meet:null, out:9,  fix:null, hh:3, ref:6, soc:0, fired:5, spend:null,   reviews:null},
+    {ym:"2026-03", vac:null, resp:null, inv:null, meet:null, out:7,  fix:null, hh:4, ref:3, soc:0, fired:4, spend:null,   reviews:null},
+    {ym:"2026-04", vac:null, resp:null, inv:null, meet:null, out:1,  fix:null, hh:0, ref:0, soc:0, fired:9, spend:null,   reviews:null},
+    {ym:"2026-05", vac:null, resp:null, inv:null, meet:null, out:1,  fix:null, hh:0, ref:0, soc:1, fired:5, spend:98606,  reviews:null},
+    {ym:"2026-06", vac:null, resp:null, inv:null, meet:null, out:3,  fix:null, hh:3, ref:0, soc:0, fired:2, spend:102168, reviews:null},
+    {ym:"2026-07", vac:12,   resp:448,  inv:32,   meet:25,   out:5,  fix:5,    hh:3, ref:0, soc:2, fired:2, spend:105299, reviews:2}
+  ],
+  depts: [
+    {name:"Василиади",       hired:6,  left:3,  turn:0.50},
+    {name:"Фаткулин",        hired:3,  left:3,  turn:1.00},
+    {name:"Рамонова",        hired:2,  left:1,  turn:0.50},
+    {name:"Миропольцев",     hired:2,  left:1,  turn:0.50},
+    {name:"Админ. персонал", hired:25, left:15, turn:0.60}
+  ]
+};
+
+var MONTHS_RU = ["Янв","Фев","Мар","Апр","Май","Июн","Июл","Авг","Сен","Окт","Ноя","Дек"];
+var MONTHS_FULL = ["январь","февраль","март","апрель","май","июнь","июль","август","сентябрь","октябрь","ноябрь","декабрь"];
+
+function fmt(n){ return (n==null||isNaN(n)) ? "—" : Math.round(n).toLocaleString("ru-RU"); }
+function pct(x){ return (x==null||isNaN(x)) ? "—" : (x*100).toLocaleString("ru-RU",{maximumFractionDigits:1})+"%"; }
+function mLabel(ym){ var mm=parseInt(ym.split("-")[1],10); return MONTHS_RU[mm-1]; }
+function mFull(ym){ var mm=parseInt(ym.split("-")[1],10); return MONTHS_FULL[mm-1]; }
+
+function render(data){
+  var M = data.months;
+  var filled = M.filter(function(r){ return r.out!=null; });
+  var ytdHired = filled.reduce(function(s,r){ return s+(r.out||0); },0);
+  var ytdLeft  = M.reduce(function(s,r){ return s+(r.fired||0); },0);
+
+  // --- funnel: последний месяц с воронкой ---
+  var fRows = M.filter(function(r){ return r.resp!=null; });
+  var f = fRows.length ? fRows[fRows.length-1] : null;
+  document.getElementById("funnel-eyebrow").textContent = "Воронка · " + (f ? mFull(f.ym) : "нет данных");
+
+  // --- стоимость: месяцы с расходом ---
+  var costRows = M.filter(function(r){ return r.spend!=null && r.out; });
+  var lastCost = costRows.length ? costRows[costRows.length-1] : null;
+  var firstCost = costRows.length ? costRows[0] : null;
+  var costLast = lastCost ? lastCost.spend/lastCost.out : null;
+  var costFirst = firstCost ? firstCost.spend/firstCost.out : null;
+  var costDelta = (costLast!=null && costFirst) ? (costLast/costFirst - 1) : null;
+
+  // --- отзывы: последний месяц ---
+  var revRows = M.filter(function(r){ return r.reviews!=null; });
+  var rev = revRows.length ? revRows[revRows.length-1] : null;
+
+  // --- KPI ---
+  var kpis = [
+    {lbl:"Принято · 2026", val:fmt(ytdHired), sub:"за "+filled.length+" мес.", cls:""},
+    {lbl:"Уволено · 2026", val:fmt(ytdLeft), sub:"пик оттока — апрель", cls:"b", subcls:"b"},
+    {lbl:"Стоимость найма"+(lastCost?" · "+mFull(lastCost.ym):""), val:costLast!=null?fmt(costLast)+" ₽":"—",
+       sub: costDelta!=null ? (costDelta<0?"↓ ":"↑ ")+pct(Math.abs(costDelta))+" к первому замеру" : "", cls: costDelta!=null&&costDelta<0?"g":"", subcls: costDelta!=null&&costDelta<0?"g":"b"},
+    {lbl:"Выведено"+(f?" · "+mFull(f.ym):""), val:f?fmt(f.out):"—", sub:"за месяц", cls:"g", subcls:"g"},
+    {lbl:"Отзывы"+(rev?" · "+mFull(rev.ym):""), val:rev?fmt(rev.reviews):"—", sub:"собрано за месяц", cls: rev&&rev.reviews<3?"b":"g", subcls: rev&&rev.reviews<3?"b":"g"}
+  ];
+  document.getElementById("kpis").innerHTML = kpis.map(function(k){
+    return '<div class="kpi '+(k.cls||"")+'"><div class="lbl">'+k.lbl+'</div>'+
+           '<div class="val num">'+k.val+'</div>'+
+           '<div class="sub '+(k.subcls||"")+'">'+(k.sub||"")+'</div></div>';
+  }).join("");
+
+  // --- funnel render ---
+  if(f){
+    var stages = [
+      {name:"Отклики",      v:f.resp, base:null},
+      {name:"Приглашённые", v:f.inv,  base:f.resp},
+      {name:"Встречи",      v:f.meet, base:f.inv},
+      {name:"Выведенные",   v:f.out,  base:f.meet},
+      {name:"Закреплённые", v:f.fix,  base:f.out}
+    ];
+    var maxv = f.resp || 1;
+    document.getElementById("funnel").innerHTML = stages.map(function(s){
+      if(s.v==null) return "";
+      var w = Math.max((s.v/maxv)*100, 6);
+      var conv = s.base ? '<b>'+pct(s.v/s.base)+'</b>' : "—";
+      return '<div class="stage"><div class="name">'+s.name+'</div>'+
+             '<div class="track"><div class="fill" style="width:'+w+'%"></div></div>'+
+             '<div class="n num">'+fmt(s.v)+'</div><div class="conv">'+conv+'</div></div>';
+    }).join("");
+  } else { document.getElementById("funnel").innerHTML = '<p class="note">Нет данных воронки.</p>'; }
+
+  // --- donut sources ---
+  var hh=0, rf=0, sc=0;
+  M.forEach(function(r){ hh+=r.hh||0; rf+=r.ref||0; sc+=r.soc||0; });
+  var known = hh+rf+sc;
+  var other = Math.max(ytdHired - known, 0);
+  var total = known + other || 1;
+  var parts = [
+    {n:"HH", v:hh, c:"var(--ink)"},
+    {n:"Рефералы", v:rf, c:"var(--olive)"},
+    {n:"Соцсети", v:sc, c:"var(--olive-soft)"},
+    {n:"Прочие", v:other, c:"var(--bad)"}
+  ];
+  var acc=0, segs=[];
+  parts.forEach(function(p){ var a=acc/total*100, b=(acc+p.v)/total*100; segs.push(p.c+" "+a+"% "+b+"%"); acc+=p.v; });
+  document.getElementById("donut").style.background = "conic-gradient("+segs.join(", ")+")";
+  document.getElementById("donut-legend").innerHTML = parts.map(function(p){
+    return '<li><span class="dot" style="background:'+p.c+'"></span> '+p.n+
+           '<span class="pct">'+pct(p.v/total)+'</span></li>';
+  }).join("");
+
+  // --- paired bars ---
+  var maxBar = Math.max.apply(null, M.map(function(r){ return Math.max(r.out||0, r.fired||0); }).concat([1]));
+  var H = 150;
+  document.getElementById("bars").innerHTML = M.map(function(r){
+    var hi = Math.round((r.out||0)/maxBar*H), ho = Math.round((r.fired||0)/maxBar*H);
+    return '<div class="grp"><div class="pair">'+
+      '<div class="bar in" style="height:'+Math.max(hi,2)+'px"><span class="t num">'+(r.out||0)+'</span></div>'+
+      '<div class="bar out" style="height:'+Math.max(ho,2)+'px"><span class="t num">'+(r.fired||0)+'</span></div>'+
+      '</div><div class="m">'+mLabel(r.ym)+'</div></div>';
+  }).join("");
+  // note про пик оттока
+  var worst = M.slice().sort(function(a,b){ return (b.fired-b.out)-(a.fired-a.out); })[0];
+  document.getElementById("bars-note").textContent = worst && (worst.fired-worst.out)>0
+    ? "Пик оттока — "+mFull(worst.ym)+": уволено "+worst.fired+" при приёме "+worst.out+"."
+    : "Приём стабильно превышает отток.";
+
+  // --- cost ---
+  var maxCost = Math.max.apply(null, costRows.map(function(r){ return r.spend/r.out; }).concat([1]));
+  document.getElementById("cost").innerHTML = costRows.map(function(r){
+    var c = r.spend/r.out; var h = Math.round(c/maxCost*150);
+    return '<div class="cost-col"><div class="cost-bar" style="height:'+Math.max(h,4)+'px">'+
+      '<span class="cv num">'+fmt(c)+' ₽</span></div>'+
+      '<div class="cm">'+MONTHS_FULL[parseInt(r.ym.split("-")[1],10)-1].replace(/^./,function(x){return x.toUpperCase();})+'</div>'+
+      '<div class="cd">'+r.out+' выведено</div></div>';
+  }).join("");
+
+  // --- depts ---
+  document.getElementById("depts").innerHTML = data.depts.map(function(d){
+    var cls = d.turn>=0.8 ? "b" : (d.turn>=0.4 ? "w" : "g");
+    var lab = d.turn>=0.8 ? "высокая" : (d.turn>=0.4 ? "средняя" : "низкая");
+    return '<tr><td>'+d.name+'</td><td>'+fmt(d.hired)+'</td><td>'+fmt(d.left)+'</td>'+
+           '<td>'+pct(d.turn)+'</td><td><span class="chip '+cls+'">'+lab+'</span></td></tr>';
+  }).join("");
+
+  // period + updated
+  var lastYm = M[M.length-1] ? mFull(filled[filled.length-1].ym) : "";
+  document.getElementById("period").textContent =
+    "Динамика — по месяцам 2026 · воронка и бюджет — "+(f?mFull(f.ym):"—")+" · отделы — накопительно";
+}
+
+/* ---- парсер CSV ---- */
+function parseCSV(text){
+  var rows=[], row=[], cur="", q=false;
+  for(var i=0;i<text.length;i++){
+    var ch=text[i];
+    if(q){
+      if(ch=='"'){ if(text[i+1]=='"'){cur+='"';i++;} else q=false; }
+      else cur+=ch;
+    } else {
+      if(ch=='"') q=true;
+      else if(ch==','){ row.push(cur); cur=""; }
+      else if(ch=='\n'){ row.push(cur); rows.push(row); row=[]; cur=""; }
+      else if(ch=='\r'){}
+      else cur+=ch;
+    }
+  }
+  if(cur.length||row.length){ row.push(cur); rows.push(row); }
+  return rows;
+}
+function num(x){ if(x==null) return null; x=(""+x).replace(/\s|₽|%/g,"").replace(",","."); if(x==="") return null; var n=parseFloat(x); return isNaN(n)?null:n; }
+function findCol(headers, kw){ for(var i=0;i<headers.length;i++){ if(headers[i].toLowerCase().indexOf(kw.toLowerCase())>=0) return i; } return -1; }
+
+function gvizUrl(id, tab){ return "https://docs.google.com/spreadsheets/d/"+id+"/gviz/tq?tqx=out:csv&sheet="+encodeURIComponent(tab); }
+
+function loadMonths(id, tab){
+  return fetch(gvizUrl(id, tab)).then(function(r){ return r.text(); }).then(function(t){
+    var rows = parseCSV(t); var h = rows[0].map(function(x){return (""+x).trim();});
+    var c = {
+      ym:findCol(h,"месяц"), vac:findCol(h,"вакан"), resp:findCol(h,"отклик"), inv:findCol(h,"приглаш"),
+      meet:findCol(h,"встреч"), out:findCol(h,"выведено"), fix:findCol(h,"закреп"),
+      hh:findCol(h,"hh"), ref:findCol(h,"реферал"), soc:findCol(h,"соцсет"),
+      fired:findCol(h,"уволено"), spend:findCol(h,"расход"), reviews:findCol(h,"отзыв")
+    };
+    var out=[];
+    for(var i=1;i<rows.length;i++){
+      var r=rows[i]; if(!r[c.ym]) continue;
+      var ymraw = (""+r[c.ym]).trim();
+      var ym = ymraw.match(/^\d{4}-\d{2}/) ? ymraw.slice(0,7) : ymraw;
+      out.push({ ym:ym, vac:num(r[c.vac]), resp:num(r[c.resp]), inv:num(r[c.inv]), meet:num(r[c.meet]),
+        out:num(r[c.out]), fix:num(r[c.fix]), hh:num(r[c.hh]), ref:num(r[c.ref]), soc:num(r[c.soc]),
+        fired:num(r[c.fired]), spend:num(r[c.spend]), reviews:num(r[c.reviews]) });
+    }
+    return out;
+  });
+}
+function loadDepts(id, tab){
+  return fetch(gvizUrl(id, tab)).then(function(r){ return r.text(); }).then(function(t){
+    var rows=parseCSV(t); var h=rows[0].map(function(x){return(""+x).trim();});
+    var c={name:findCol(h,"отдел"), hired:findCol(h,"принято"), left:findCol(h,"уволено"), turn:findCol(h,"текуч")};
+    var out=[];
+    for(var i=1;i<rows.length;i++){ var r=rows[i]; if(!r[c.name]) continue;
+      var tv=num(r[c.turn]); if(tv!=null && tv>1.5) tv=tv/100;
+      out.push({name:(""+r[c.name]).trim(), hired:num(r[c.hired]), left:num(r[c.left]), turn:tv}); }
+    return out;
+  });
+}
+
+function setStatus(kind, txt){
+  var el=document.getElementById("status");
+  el.className="status "+kind;
+  document.getElementById("status-txt").textContent=txt;
+}
+
+// первичный рендер по снимку — сайт всегда что-то показывает
+render(SNAPSHOT);
+setStatus("snap", "Встроенные данные · подключите таблицу для авто-обновления");
+document.getElementById("updated").textContent = "актуально на "+new Date().toLocaleDateString("ru-RU");
+
+// если задан ID — пробуем живую загрузку
+if(CONFIG.sheetId){
+  setStatus("snap","Обновление из таблицы…");
+  Promise.all([ loadMonths(CONFIG.sheetId, CONFIG.monthsTab), loadDepts(CONFIG.sheetId, CONFIG.deptsTab) ])
+    .then(function(res){
+      var data = { months: res[0].length?res[0]:SNAPSHOT.months, depts: res[1].length?res[1]:SNAPSHOT.depts };
+      render(data);
+      setStatus("live","Данные из таблицы · обновлено "+new Date().toLocaleString("ru-RU"));
+    })
+    .catch(function(e){
+      setStatus("snap","Не удалось прочитать таблицу — показаны последние данные");
+    });
+}
+</script>
+</body>
+</html>
