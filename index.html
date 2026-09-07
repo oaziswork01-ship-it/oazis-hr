@@ -144,6 +144,7 @@
   .src{font-size:12px; color:var(--faint); margin:0 0 14px; display:flex; align-items:center; gap:7px}
   .src::before{content:""; width:8px; height:8px; border-radius:50%; background:var(--faint); flex:0 0 auto}
   .src.ok::before{background:var(--good)} .src.err::before{background:var(--warn)}
+  .chartwrap{overflow-x:auto; padding:8px 0 2px}
   /* ССП goals */
   .goal{border-top:1px solid var(--line); padding:16px 0}
   .goal:first-child{border-top:0; padding-top:2px}
@@ -284,6 +285,18 @@
       </div>
       <p class="note">Реферальные — только с закрытых сделок (кто не продал, не стоит ничего). ФОТ брокера = его % мотивации.</p>
     </div>
+
+    <div class="card" style="margin-top:18px">
+      <p class="eyebrow">Расшифровка — из каких цифр считаем экономику</p>
+      <div class="gline"><span class="gk">Когорта</span><span>только брокеры, <b>нанятые в 2026</b> (22 чел.). Всё считается по ним — без сотрудников прошлых лет и без админ-персонала.</span></div>
+      <div class="gline"><span class="gk">Выручка<br>17,2 млн</span><span><b>Доля компании (комиссия)</b> со всех сделок, закрытых этими брокерами с момента найма. Это деньги компании, а не полная сумма сделок клиентов.</span></div>
+      <div class="gline"><span class="gk">− ФОТ<br>4,86 млн</span><span>Выплаты самим брокерам = их <b>% мотивации</b> с закрытых сделок. Переменная часть — платится только за результат.</span></div>
+      <div class="gline"><span class="gk">= Маржа<br>12,4 млн</span><span><b>Выручка − ФОТ.</b> Сколько компания заработала на когорте <b>до</b> вычета затрат на их найм.</span></div>
+      <div class="gline"><span class="gk">− Найм<br>1,95 млн</span><span>ЗП рекрутеров (0,97) + реферальные 5% (0,56, только с закрытых сделок) + подписка hh (0,37) + прочее (0,05).</span></div>
+      <div class="gline"><span class="gk">= Чистыми<br>10,4 млн</span><span><b>Маржа − затраты на найм.</b> Итог компании по когорте этого года.</span></div>
+      <div class="gline read g"><span class="gk">Окупаемость<br>×6</span><span class="gv"><b>Маржа 12,4 ÷ затраты на найм 1,95 ≈ 6,4.</b> На каждый ₽, вложенный в найм, когорта уже вернула ~6 ₽ маржи. По мере адаптации новичков окупаемость вырастет.</span></div>
+      <p class="note">Все суммы — снимок на текущую дату и растут по мере работы брокеров. «Выручка» здесь — доля/комиссия компании; если у вас она считается иначе (например, от полного объёма сделок), маржа и окупаемость пересчитываются от этой базы.</p>
+    </div>
   </section>
 
   <!-- 3 ИСТОЧНИКИ -->
@@ -378,7 +391,14 @@
         <div class="kpi"><div class="lbl">Закреплено</div><div class="val num">—</div><div class="sub2">загрузка…</div></div>
         <div class="kpi"><div class="lbl">Конв. отклик→пригл.</div><div class="val num">—</div><div class="sub2">загрузка…</div></div>
       </div>
-      <table class="num" style="margin-top:16px">
+
+      <!-- график: закреплено по месяцам -->
+      <p class="eyebrow" style="margin-top:22px">Закреплено по месяцам · 2025 (с разбивкой на удалёнку) vs 2026</p>
+      <div id="cmp-chart" class="chartwrap"></div>
+      <div id="cmp-legend" class="clegend"></div>
+      <p class="note" id="cmp-remote"></p>
+
+      <table class="num" style="margin-top:18px">
         <thead><tr><th>Месяц</th><th>Откл. ’25</th><th>Откл. ’26</th><th>Выв. ’25</th><th>Выв. ’26</th><th>Закр. ’25</th><th>Закр. ’26</th></tr></thead>
         <tbody id="cmp-tbody"></tbody>
       </table>
@@ -555,7 +575,9 @@ function sha256(ascii){
     inv:[106,56,65,115,101,82,55,54,61,66,54,79],
     mt:[24,37,53,90,48,62,47,34,46,41,44,40],
     vy:[8,7,8,17,7,6,8,7,4,2,11,5],
-    fx:[5,6,3,9,4,3,7,4,3,1,4,6]
+    fx:[5,6,3,9,4,3,7,4,3,1,4,6],
+    vyOnline:[0,0,6,12,2,3,4,0,0,0,0,0], // выведено через удалёнку (hh.ru Онлайн)
+    fxOnline:[0,0,0,7,1,0,1,0,0,0,0,0]   // закреплено через удалёнку
   };
   var S26={ o:[898,1066,498,371,310,699,448,118], inv:[80,60,49,23,29,34,32,13], mt:[49,50,39,17,23,18,25,8], vy:[4,9,8,1,1,3,5,2], fx:[0,11,7,2,1,1,5,2], planVy:[4,11,7,2,4,3,5,4] };
 
@@ -661,6 +683,39 @@ function sha256(ascii){
       document.getElementById("cmp-tbody").innerHTML=ct;
       document.getElementById("cmp-range").textContent="янв–"+M[n-1].sh+" · 2026 к 2025";
       window.__cmp={s25:s25,s26:s26,ci25:ci25,ci26:ci26};
+
+      // ---- график: закреплено по месяцам, 2025 (офис/прочее + удалёнка) vs 2026 ----
+      var maxV=1; for(var q=0;q<n;q++){ maxV=Math.max(maxV,Y25.fx[q],M[q].fx); }
+      var H=140; function hp(v){ return Math.round(v/maxV*H); }
+      var chart="";
+      for(var q=0;q<n;q++){
+        var tot25=Y25.fx[q], rem=Y25.fxOnline[q]||0, base=tot25-rem, v26=M[q].fx;
+        chart+='<div style="flex:1 0 auto; min-width:44px; display:flex; flex-direction:column; align-items:center; justify-content:flex-end">'+
+          '<div style="display:flex; align-items:flex-end; gap:5px; height:'+H+'px">'+
+            '<div style="width:16px; display:flex; flex-direction:column-reverse; position:relative">'+
+              '<div style="height:'+hp(base)+'px; background:var(--olive-soft); border-radius:0 0 4px 4px"></div>'+
+              (rem>0?'<div title="удалёнка" style="height:'+hp(rem)+'px; background:var(--warn); border-radius:4px 4px 0 0"></div>':'')+
+              '<span style="position:absolute; top:-16px; left:50%; transform:translateX(-50%); font-size:10.5px; font-weight:700; color:var(--muted)">'+tot25+'</span>'+
+            '</div>'+
+            '<div style="width:16px; position:relative">'+
+              '<div style="height:'+hp(v26)+'px; background:var(--olive); border-radius:4px 4px 0 0"></div>'+
+              '<span style="position:absolute; top:-16px; left:50%; transform:translateX(-50%); font-size:10.5px; font-weight:800">'+v26+'</span>'+
+            '</div>'+
+          '</div>'+
+          '<div style="font-size:11px; color:var(--muted); margin-top:7px; white-space:nowrap">'+M[q].sh+'</div>'+
+        '</div>';
+      }
+      document.getElementById("cmp-chart").innerHTML='<div style="display:flex; align-items:flex-end; gap:10px; height:'+(H+24)+'px; padding-top:20px; min-width:'+(n*54)+'px">'+chart+'</div>';
+      document.getElementById("cmp-legend").innerHTML=
+        '<span><span class="dot" style="background:var(--olive-soft)"></span> 2025 · офис/прочие каналы</span>'+
+        '<span><span class="dot" style="background:var(--warn)"></span> 2025 · удалёнка (онлайн)</span>'+
+        '<span><span class="dot" style="background:var(--olive)"></span> 2026</span>';
+      var remVy=0, remFx=0, totVyH1=0, remVyH1=0;
+      for(var q2=0;q2<n;q2++){ remVy+=Y25.vyOnline[q2]||0; remFx+=Y25.fxOnline[q2]||0; if(q2<6){ totVyH1+=Y25.vy[q2]; remVyH1+=Y25.vyOnline[q2]||0; } }
+      var shareH1= totVyH1? Math.round(remVyH1/totVyH1*100):0, s25noRem=s25.fx-remFx;
+      document.getElementById("cmp-remote").innerHTML=
+        'В 2025 работал отдельный <b>удалённый найм</b> (онлайн-канал), которого в 2026 фактически нет. За <b>январь–июнь</b> удалёнка дала <b>'+remVyH1+' из '+totVyH1+' выведенных (~'+shareH1+'%)</b>, пик — апрель (12 из 17). За сопоставимый период всего — '+remVy+' выведено и '+remFx+' закреплено с удалёнки (оранжевая часть столбцов 2025). '+
+        'Если сравнивать <b>офис к офису</b>: 2025 без удалёнки — <b>'+s25noRem+'</b> закр. против <b>'+s26.fx+'</b> в 2026, и разрыв сокращается с '+(s25.fx-s26.fx)+' до '+(s25noRem-s26.fx)+'.';
     })();
 
     // ---- характеристика по месяцам (авто) ----
