@@ -120,6 +120,34 @@
   tbody tr{border-bottom:1px solid var(--line)} tbody tr:last-child{border-bottom:0}
   td .pill{display:inline-block; padding:3px 10px; border-radius:20px; font-size:11.5px; font-weight:700}
   .pill.g{background:var(--good-bg); color:var(--good)} .pill.b{background:var(--bad-bg); color:var(--bad)} .pill.w{background:var(--warn-bg); color:var(--warn)}
+  /* monthly read */
+  .mread{display:flex; flex-direction:column}
+  .mrow{display:grid; grid-template-columns:104px 1fr; gap:14px; padding:12px 0; border-top:1px solid var(--line)}
+  .mrow:first-child{border-top:0}
+  .mrow .mm{font-weight:800; font-size:14.5px}
+  .mrow .mm small{display:block; font-weight:600; color:var(--muted); font-size:11.5px; margin-top:2px}
+  .mrow .mt{font-size:13.5px; color:var(--ink); line-height:1.5}
+  .mrow .mt::before{content:""; display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:9px; vertical-align:middle; background:var(--muted)}
+  .mrow.g .mt::before{background:var(--good)} .mrow.w .mt::before{background:var(--warn)} .mrow.b .mt::before{background:var(--bad)}
+  @media(max-width:560px){.mrow{grid-template-columns:1fr; gap:5px}}
+  .verdict{background:var(--surface2); border:1px solid var(--line); border-left:4px solid var(--olive); border-radius:10px; padding:14px 16px; font-size:13.5px; color:var(--ink); line-height:1.55; margin-top:14px}
+  .verdict b{color:var(--olive)}
+  .src{font-size:12px; color:var(--faint); margin:0 0 14px; display:flex; align-items:center; gap:7px}
+  .src::before{content:""; width:8px; height:8px; border-radius:50%; background:var(--faint); flex:0 0 auto}
+  .src.ok::before{background:var(--good)} .src.err::before{background:var(--warn)}
+  /* ССП goals */
+  .goal{border-top:1px solid var(--line); padding:16px 0}
+  .goal:first-child{border-top:0; padding-top:2px}
+  .goal-head{display:flex; align-items:baseline; gap:12px}
+  .goal-head .gt{font-weight:800; font-size:15px; line-height:1.35}
+  .goal-head .gt b{color:var(--olive)}
+  .goal-head .pill{margin-left:auto; flex:0 0 auto; white-space:nowrap}
+  .gline{display:grid; grid-template-columns:88px 1fr; gap:12px; margin-top:9px; font-size:13.5px; line-height:1.5}
+  .gline .gk{color:var(--muted); font-weight:600; font-size:11.5px; text-transform:uppercase; letter-spacing:.06em; padding-top:2px}
+  .gline.read .gv::before{content:""; display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:8px; vertical-align:middle; background:var(--muted)}
+  .gline.read.g .gv::before{background:var(--good)} .gline.read.w .gv::before{background:var(--warn)} .gline.read.b .gv::before{background:var(--bad)}
+  .gline.read .gv{color:var(--ink)}
+  @media(max-width:560px){.gline{grid-template-columns:1fr; gap:3px}}
   footer{margin-top:24px; padding-top:15px; border-top:1px solid var(--line); font-size:12px; color:var(--faint); letter-spacing:.03em; display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px}
 </style>
 </head>
@@ -144,6 +172,7 @@
 
   <nav class="nav">
     <a href="#b1">Обзор</a>
+    <a href="#bssp">Цели ССП</a>
     <a href="#b2">Экономика</a>
     <a href="#b3">Источники</a>
     <a href="#b4">Воронка</a>
@@ -158,21 +187,73 @@
     <div class="block-head"><span class="bnum">01</span><h2>Обзор</h2><span class="bsub">ключевые цифры 2026</span></div>
     <div class="kpis">
       <div class="kpi"><div class="lbl">Выведено брокеров в 2026</div><div class="val num">22</div><div class="sub2">когорта этого года</div></div>
-      <div class="kpi g"><div class="lbl">Маржа когорты 2026</div><div class="val num">11,9 млн ₽</div><div class="sub2 g">выручка 17,2 − ФОТ 5,3</div></div>
+      <div class="kpi g"><div class="lbl">Маржа когорты 2026</div><div class="val num">12,4 млн ₽</div><div class="sub2 g">выручка 17,2 − ФОТ 4,86</div></div>
       <div class="kpi g"><div class="lbl">Окупаемость найма 2026</div><div class="val num">×6</div><div class="sub2 g">и будет расти</div></div>
       <div class="kpi b"><div class="lbl">Ранний отток (&lt;90 дн)</div><div class="val num">41%</div><div class="sub2 b">почти половина ушедших</div></div>
       <div class="kpi w"><div class="lbl">Доходят до 1-й брони</div><div class="val num">28%</div><div class="sub2 w">в среднем за ~52 дня</div></div>
-      <div class="kpi"><div class="lbl">Затраты на найм 2026</div><div class="val num">1,95 млн ₽</div><div class="sub2">против 11,9 млн маржи</div></div>
+      <div class="kpi"><div class="lbl">Затраты на найм 2026</div><div class="val num">1,95 млн ₽</div><div class="sub2">против 12,4 млн маржи</div></div>
     </div>
   </section>
 
-  <!-- 2 ЭКОНОМИКА -->
+  <!-- ЦЕЛИ ССП 2026 -->
+  <section class="block" id="bssp">
+    <div class="block-head"><span class="bnum">02</span><h2>Цели ССП 2026</h2><span class="bsub">годовые цели HR · оценка движения</span></div>
+    <div class="card">
+      <p class="eyebrow">6 целей на год — что поставили и где мы по факту</p>
+
+      <div class="goal">
+        <div class="goal-head"><span class="gt"><b>1.</b> Сформировать устойчивый пул из 40 эффективных брокеров</span><span class="pill w">отстаём</span></div>
+        <div class="gline"><span class="gk">Цель</span><span>устойчивый пул из 40 брокеров к концу года</span></div>
+        <div class="gline"><span class="gk">Сделано</span><span>план 1 п/г — 4 экзамена/мес; вывод колеблется 1–9 в месяц, пул нестабилен</span></div>
+        <div class="gline read w"><span class="gk">Оценка</span><span class="gv">Закреплено ~29 из 40, устойчивого пула нет. Темп даёт ~39 к декабрю, но апрель–май съели прирост, а ранний отток вымывает закреплённых (см. <a href="#b4" style="color:var(--olive)">Воронку</a> и <a href="#b7" style="color:var(--olive)">Онбординг</a>). Ключевая цель года под риском.</span></div>
+      </div>
+
+      <div class="goal">
+        <div class="goal-head"><span class="gt"><b>2.</b> Снизить зависимость от платного трафика на 30%</span><span class="pill w">частично</span></div>
+        <div class="gline"><span class="gk">Цель</span><span>−30% платного: реферальная 10% + Instagram 10% + хантинг 10%</span></div>
+        <div class="gline"><span class="gk">Сделано</span><span>Instagram растёт стабильно (+100–126 подписчиков/мес); реферальная и хантинг — точечно</span></div>
+        <div class="gline read w"><span class="gk">Оценка</span><span class="gv">Основная масса найма всё ещё через hh (платный канал). Рекомендация даёт объём, но системного сдвига −30% пока нет — растёт в основном органика Instagram (см. <a href="#b3" style="color:var(--olive)">Источники</a>).</span></div>
+      </div>
+
+      <div class="goal">
+        <div class="goal-head"><span class="gt"><b>3.</b> Снизить текучесть персонала с 207% до 60%</span><span class="pill w">измеряем</span></div>
+        <div class="gline"><span class="gk">Цель</span><span>текучесть 207% → 60% за год</span></div>
+        <div class="gline"><span class="gk">Сделано</span><span>введены exit-интервью, анкета 31-го дня, дашборд причин оттока</span></div>
+        <div class="gline read w"><span class="gk">Оценка</span><span class="gv">Инструменты диагностики построены, но целевой цифры за п/г нет, а апрель–май показали высокий отток. Пока управляем причинами, а не результатом — судить о 60% рано.</span></div>
+      </div>
+
+      <div class="goal">
+        <div class="goal-head"><span class="gt"><b>4.</b> Переманить продающих брокеров у конкурентов</span><span class="pill b">не начато по факту</span></div>
+        <div class="gline"><span class="gk">Цель</span><span>прямой хантинг топ-агентов из других агентств</span></div>
+        <div class="gline"><span class="gk">Сделано</span><span>конкурентные срезы по 2 АН, список топ-агентов</span></div>
+        <div class="gline read b"><span class="gk">Оценка</span><span class="gv">Переходов из конкурентов в отчётах <b>не зафиксировано</b>. Есть подготовка (списки, срезы), но результата ноль — самая проседающая из целей.</span></div>
+      </div>
+
+      <div class="goal">
+        <div class="goal-head"><span class="gt"><b>5.</b> Индекс удовлетворённости + аудит оценки 360°</span><span class="pill w">частично</span></div>
+        <div class="gline"><span class="gk">Цель</span><span>замерить индекс удовлетворённости, провести аудит процесса оценки 360°</span></div>
+        <div class="gline"><span class="gk">Сделано</span><span>разобраны топ-3 «горящих» процесса: дефицит экспертизы, адаптация, «потолок» эксперта</span></div>
+        <div class="gline read w"><span class="gv">Диагностика проблемных зон есть, но самого индекса и формального аудита 360° ещё нет. Движемся, но цель пока не закрыта.</span></div>
+      </div>
+
+      <div class="goal">
+        <div class="goal-head"><span class="gt"><b>6.</b> Сертифицированное обучение HR Business Partnering</span><span class="pill g">в графике</span></div>
+        <div class="gline"><span class="gk">Цель</span><span>сертифицированное обучение HR BP</span></div>
+        <div class="gline"><span class="gk">Сделано</span><span>проходится с мая: блоки для РГ, HR-бренд, нейросети, soft skills</span></div>
+        <div class="gline read g"><span class="gv">Единственная цель, что идёт по плану: обучение запущено и системно продолжается. Зелёная зона.</span></div>
+      </div>
+
+      <p class="note">Оценка движения — мой аналитический вывод по данным отчётов янв–авг. Статусы: <b style="color:var(--good)">зелёный</b> — в графике, <b style="color:var(--warn)">жёлтый</b> — частично / под риском, <b style="color:var(--bad)">красный</b> — без результата. Цель №1 напрямую связана с блоком «Воронка найма».</p>
+    </div>
+  </section>
+
+  <!-- 3 ЭКОНОМИКА -->
   <section class="block" id="b2">
-    <div class="block-head"><span class="bnum">02</span><h2>Экономика и окупаемость</h2><span class="bsub">когорта, нанятая в 2026</span></div>
+    <div class="block-head"><span class="bnum">03</span><h2>Экономика и окупаемость</h2><span class="bsub">когорта, нанятая в 2026</span></div>
     <div class="card hero" style="margin-bottom:18px">
       <div class="big num">×6</div>
       <div>
-        <div class="lead">Найм <b>этого года</b> уже окупился в 6 раз — хотя новички ещё на разгоне. Потратили <b>1,95 млн ₽</b> → маржа когорты <b>11,9 млн ₽</b>.</div>
+        <div class="lead">Найм <b>этого года</b> уже окупился в 6 раз — хотя новички ещё на разгоне. Потратили <b>1,95 млн ₽</b> → маржа когорты <b>12,4 млн ₽</b>.</div>
         <div class="note2">Когорту уже вытянули в плюс несколько быстро выстреливших брокеров. По мере адаптации остальных окупаемость вырастет.</div>
       </div>
     </div>
@@ -180,10 +261,10 @@
       <p class="eyebrow">Поток денег · когорта 2026</p>
       <div class="flow">
         <div class="step"><div class="lbl">Выручка компании</div><div class="bar" style="width:100%"></div><div class="val num">17,2 млн</div></div>
-        <div class="step neg"><div class="lbl">− ФОТ брокеров</div><div class="bar" style="width:31%"></div><div class="val num">−5,3 млн</div></div>
-        <div class="step"><div class="lbl">= Маржа компании</div><div class="bar" style="width:69%"></div><div class="val num">11,9 млн</div></div>
+        <div class="step neg"><div class="lbl">− ФОТ брокеров</div><div class="bar" style="width:28%"></div><div class="val num">−4,86 млн</div></div>
+        <div class="step"><div class="lbl">= Маржа компании</div><div class="bar" style="width:72%"></div><div class="val num">12,4 млн</div></div>
         <div class="step neg"><div class="lbl">− Затраты на найм</div><div class="bar" style="width:11%"></div><div class="val num">−1,95 млн</div></div>
-        <div class="step res"><div class="lbl">= Чистыми</div><div class="bar" style="width:58%"></div><div class="val num">9,9 млн</div></div>
+        <div class="step res"><div class="lbl">= Чистыми</div><div class="bar" style="width:60%"></div><div class="val num">10,4 млн</div></div>
       </div>
       <div class="costs">
         <span class="tag" style="width:100%;font-weight:600">Затраты на найм 2026 — 1,95 млн:</span>
@@ -198,7 +279,7 @@
 
   <!-- 3 ИСТОЧНИКИ -->
   <section class="block" id="b3">
-    <div class="block-head"><span class="bnum">03</span><h2>Источники найма</h2><span class="bsub">когорта, нанятая в 2026</span></div>
+    <div class="block-head"><span class="bnum">04</span><h2>Источники найма</h2><span class="bsub">когорта, нанятая в 2026</span></div>
     <div class="grid3">
       <div class="ch">
         <h3>Рекомендация</h3>
@@ -215,32 +296,108 @@
         <div class="m"><span>Выручка</span><b class="num">6,0 млн ₽</b></div>
       </div>
       <div class="ch dim">
-        <h3>Сайт / Соцсети / Трубка</h3>
-        <div class="m"><span>Брокеров</span><b class="num">5</b></div>
-        <div class="m"><span>Удержание</span><b class="num">60%</b></div>
+        <h3>Горячая трубка</h3>
+        <div class="m"><span>Брокеров</span><b class="num">2</b></div>
+        <div class="m"><span>Удержание</span><b class="num" style="color:var(--good)">100%</b></div>
+        <div class="m"><span>Маржа компании</span><b class="num">0 ₽</b></div>
+        <div class="m"><span>Выручка</span><b class="num">0 ₽</b></div>
+      </div>
+      <div class="ch dim">
+        <h3>Соцсети</h3>
+        <div class="m"><span>Брокеров</span><b class="num">1</b></div>
+        <div class="m"><span>Удержание</span><b class="num" style="color:var(--good)">100%</b></div>
+        <div class="m"><span>Маржа компании</span><b class="num">0 ₽</b></div>
+        <div class="m"><span>Выручка</span><b class="num">0 ₽</b></div>
+      </div>
+      <div class="ch dim">
+        <h3>Сайт</h3>
+        <div class="m"><span>Брокеров</span><b class="num">2</b></div>
+        <div class="m"><span>Удержание</span><b class="num" style="color:var(--bad)">0%</b></div>
         <div class="m"><span>Маржа компании</span><b class="num">0 ₽</b></div>
         <div class="m"><span>Выручка</span><b class="num">0 ₽</b></div>
       </div>
     </div>
-    <p class="note">Когорта этого года (нанятые в 2026). Рекомендация даёт больше объёма и маржи, HH держится чуть лучше (50% против 44%). Новички ещё на разгоне — цифры вырастут. Соцсети/сайт/трубка пока без результата.</p>
+    <p class="note">Когорта этого года (нанятые в 2026). Рекомендация даёт больше объёма и маржи, HH держится чуть лучше (50% против 44%). Новички ещё на разгоне — цифры вырастут. Трубка и соцсети — новички (стаж &lt;2 мес), сайт — оба ушли: пока без результата.</p>
   </section>
 
   <!-- 4 ВОРОНКА -->
   <section class="block" id="b4">
-    <div class="block-head"><span class="bnum">04</span><h2>Воронка найма</h2><span class="bsub">июль 2026 · факт</span></div>
+    <div class="block-head"><span class="bnum">05</span><h2>Воронка найма</h2><span class="bsub">динамика по месяцам · <span id="fn-range">2026</span></span></div>
+
+    <div class="src" id="fn-status">Источник — Google-таблица (годовая сводка). Загрузка свежих данных…</div>
+
+    <!-- воронка за год, накопительно -->
+    <div class="card" style="margin-bottom:18px">
+      <p class="eyebrow">Воронка за год · накопительно</p>
+      <div id="fn-year">
+      <div class="stage"><div class="name">Отклики</div><div class="track"><div class="fill" style="width:100%"></div></div><div class="n num">4408</div><div class="conv">—</div></div>
+      <div class="stage"><div class="name">Приглашённые</div><div class="track"><div class="fill" style="width:7%"></div></div><div class="n num">320</div><div class="conv"><b>7,3%</b></div></div>
+      <div class="stage"><div class="name">Встречи</div><div class="track"><div class="fill" style="width:5%"></div></div><div class="n num">229</div><div class="conv"><b>72%</b></div></div>
+      <div class="stage"><div class="name">Выведенные</div><div class="track"><div class="fill" style="width:3%"></div></div><div class="n num">33</div><div class="conv"><b>14%</b></div></div>
+      <div class="stage"><div class="name">Закреплённые</div><div class="track"><div class="fill" style="width:3%"></div></div><div class="n num">29</div><div class="conv"><b>88%</b></div></div>
+      </div>
+      <p class="note" id="fn-year-note">Узкое место весь год — <b>отклик → приглашение (5–11%, в среднем 7,3%)</b>. Верх воронки огромный — 4408 откликов, — но почти не конвертит. Именно тут теряется годовой план: цель года — <b>устойчивый пул из 40 брокеров</b>, закреплено <b>29 из 40</b> за 8 месяцев, и это без поправки на отток.</p>
+    </div>
+
+    <!-- по месяцам: цифры -->
+    <div class="card" style="margin-bottom:18px">
+      <p class="eyebrow">По месяцам · цифры воронки</p>
+      <table class="num">
+        <thead><tr><th>Месяц</th><th>Отклики</th><th>Пригл.</th><th>Встречи</th><th>Выв.</th><th>Закреп.</th><th>Откл→Пригл</th><th>Оценка</th></tr></thead>
+        <tbody id="fn-tbody">
+          <tr><td>Январь</td><td>898</td><td>80</td><td>49</td><td>4</td><td>0</td><td>8,9%</td><td><span class="pill w">старт</span></td></tr>
+          <tr><td>Февраль</td><td>1066</td><td>60</td><td>50</td><td>9</td><td>11</td><td>5,6%</td><td><span class="pill g">пик</span></td></tr>
+          <tr><td>Март</td><td>498</td><td>49</td><td>39</td><td>8</td><td>7</td><td>9,8%</td><td><span class="pill g">лучший</span></td></tr>
+          <tr><td>Апрель</td><td>371</td><td>23</td><td>17</td><td>1</td><td>2</td><td>6,2%</td><td><span class="pill b">провал</span></td></tr>
+          <tr><td>Май</td><td>310</td><td>29</td><td>23</td><td>1</td><td>1</td><td>9,4%</td><td><span class="pill b">дно</span></td></tr>
+          <tr><td>Июнь</td><td>699</td><td>34</td><td>18</td><td>3</td><td>1</td><td>4,9%</td><td><span class="pill w">объём без выхода</span></td></tr>
+          <tr><td>Июль</td><td>448</td><td>32</td><td>25</td><td>5</td><td>5</td><td>7,1%</td><td><span class="pill g">разворот</span></td></tr>
+          <tr><td>Август</td><td>118</td><td>13</td><td>8</td><td>2</td><td>2</td><td>11,0%</td><td><span class="pill w">качество</span></td></tr>
+          <tr style="border-top:2px solid var(--ink); font-weight:800"><td>Год</td><td>4408</td><td>320</td><td>229</td><td>33</td><td>29</td><td>7,3%</td><td><span class="pill w">29 / 40</span></td></tr>
+        </tbody>
+      </table>
+      <p class="note">«Выв.» — выведено в офис, «Закреп.» — закреплено (проверенные, остаются). Расхождение «выведено ≠ закреплено» в месяце — сдвиг по срокам оформления между месяцами.</p>
+    </div>
+
+    <!-- сравнение с 2025 -->
+    <div class="card" style="margin-bottom:18px">
+      <p class="eyebrow">Сравнение с 2025 · <span id="cmp-range">сопоставимый период</span></p>
+      <div class="verdict" style="border-left-color:var(--bad); margin:0 0 16px"><b>Ключевое отличие от 2025:</b> в 2025 году набор шёл <b>каждый месяц</b> без перерывов. В 2026-м в <b>апреле, мае и сентябре набора не было</b> — три «пустых» месяца из девяти (в апреле и мае взяли по 1 человеку в виде исключения, но как такового набора не велось). Именно они дают основной разрыв в закреплениях к прошлому году.</div>
+      <div class="kpis" id="cmp-kpis">
+        <div class="kpi"><div class="lbl">Отклики</div><div class="val num">—</div><div class="sub2">загрузка…</div></div>
+        <div class="kpi"><div class="lbl">Выведено</div><div class="val num">—</div><div class="sub2">загрузка…</div></div>
+        <div class="kpi"><div class="lbl">Закреплено</div><div class="val num">—</div><div class="sub2">загрузка…</div></div>
+        <div class="kpi"><div class="lbl">Конв. отклик→пригл.</div><div class="val num">—</div><div class="sub2">загрузка…</div></div>
+      </div>
+      <table class="num" style="margin-top:16px">
+        <thead><tr><th>Месяц</th><th>Откл. ’25</th><th>Откл. ’26</th><th>Выв. ’25</th><th>Выв. ’26</th><th>Закр. ’25</th><th>Закр. ’26</th></tr></thead>
+        <tbody id="cmp-tbody"></tbody>
+      </table>
+      <p class="note" id="cmp-note">2025 — полный факт прошлого года (эталон), 2026 — из таблицы. Зелёным подсвечен рост закреплений к прошлому году, красным — падение.</p>
+    </div>
+
+    <!-- моя характеристика по месяцам -->
     <div class="card">
-      <div class="stage"><div class="name">Отклики</div><div class="track"><div class="fill" style="width:100%"></div></div><div class="n num">448</div><div class="conv">—</div></div>
-      <div class="stage"><div class="name">Приглашённые</div><div class="track"><div class="fill" style="width:14%"></div></div><div class="n num">32</div><div class="conv"><b>7,1%</b></div></div>
-      <div class="stage"><div class="name">Встречи</div><div class="track"><div class="fill" style="width:11%"></div></div><div class="n num">25</div><div class="conv"><b>78%</b></div></div>
-      <div class="stage"><div class="name">Выведенные</div><div class="track"><div class="fill" style="width:6%"></div></div><div class="n num">5</div><div class="conv"><b>20%</b></div></div>
-      <div class="stage"><div class="name">Закреплённые</div><div class="track"><div class="fill" style="width:6%"></div></div><div class="n num">5</div><div class="conv"><b>100%</b></div></div>
-      <p class="note">Узкое место весь 2026 — <b>отклик → приглашение (5–8%)</b>. Верх воронки большой (300–1000 откликов/мес), но почти не конвертит.</p>
+      <p class="eyebrow">Характеристика по месяцам — движение к цели года (пул 40 брокеров)</p>
+      <div class="mread" id="fn-mread">
+        <div class="mrow w"><div class="mm">Январь<small>вывод 4/4</small></div><div class="mt">План по выводу выполнен (4 из 4), но закреплений <b>ноль</b> — пул за месяц не вырос. Конверсия в приглашение здоровая (8,9%). Старт года «в холостую»: люди зашли, но ни один ещё не закрепился.</div></div>
+        <div class="mrow g"><div class="mm">Февраль<small>вывод 9/11</small></div><div class="mt">Пик верха воронки — <b>1066 откликов</b> и <b>+11 закреплений</b>, лучший месяц по пополнению пула. Но план по выводу недобрали (9 из 11, 82%), а конверсия в приглашение просела до 5,6% — верх перегрузили количеством в ущерб качеству.</div></div>
+        <div class="mrow g"><div class="mm">Март<small>вывод 8/7</small></div><div class="mt">Самый эффективный месяц: план перевыполнен (8 из 7, 114%), <b>+7 закреплений</b>, лучшая конверсия отклик→приглашение <b>9,8%</b> при вдвое меньшем потоке откликов. Образец, как воронка должна работать — качеством, а не валом.</div></div>
+        <div class="mrow b"><div class="mm">Апрель<small>вывод 1/2</small></div><div class="mt">Провал вывода: <b>1 из 2 (50%)</b>, поток откликов упал до 371. На фоне оттока (по приёму/увольнениям месяц минусовой) пул реально <b>сократился</b>. Первый тревожный сигнал по годовой цели.</div></div>
+        <div class="mrow b"><div class="mm">Май<small>вывод 1/4</small></div><div class="mt">Дно года: <b>1 из 4 (25%)</b>, минимум откликов (310). Конверсия в приглашение неплохая (9,4%) — значит проблема не в качестве трафика, а в <b>объёме входа и удержании</b> внизу воронки. Два месяца подряд пул не растёт.</div></div>
+        <div class="mrow w"><div class="mm">Июнь<small>вывод 3/3</small></div><div class="mt">Объём откликов восстановлен (699), план по выводу закрыт (3 из 3), но <b>лишь 1 закрепление</b> и худшая за год конверсия в приглашение <b>4,9%</b>. Много входа — мало выхода: верх воронки снова забили, но вниз почти не протолкнули.</div></div>
+        <div class="mrow g"><div class="mm">Июль<small>вывод 5/—</small></div><div class="mt">Разворот: <b>5 выведено, 5 закреплено (100%)</b>. Впервые с марта пул уверенно прирос, приём снова обгоняет отток. Конверсия вернулась к норме (7,1%). Тренд положительный.</div></div>
+        <div class="mrow w"><div class="mm">Август<small>вывод 2/—</small></div><div class="mt">Мало откликов (118), но <b>лучшая за год конверсия в приглашение — 11%</b>: сработали на качество, а не на вал, вывели и закрепили 2 из 2. Данные месяца ещё могут дополниться — оценка предварительная.</div></div>
+      </div>
+      <div class="verdict" id="fn-verdict">
+        <b>Вывод по году:</b> к цели «пул 40 эффективных брокеров» движемся <b>медленно и неустойчиво</b> — закреплено 29 из 40 за 8 месяцев, но апрель–май съели прирост, а часть закреплённых теряется в раннем оттоке (см. Онбординг). Темп «в среднем 3,6 закрепления/мес» формально выводит к ~44 закрытиям к декабрю, но <b>устойчивого пула из 40 пока нет</b>. Главный рычаг — не наращивать отклики (их и так 4–5 тыс.), а поднять <b>конверсию отклик→приглашение с 7% до 10%+</b> (март и август показали, что это реально) и <b>удержать</b> выведенных первые 90 дней.
+      </div>
     </div>
   </section>
 
   <!-- 5 ПРИЁМ/УВОЛЬНЕНИЯ -->
   <section class="block" id="b5">
-    <div class="block-head"><span class="bnum">05</span><h2>Приём и увольнения</h2><span class="bsub">по месяцам 2026</span></div>
+    <div class="block-head"><span class="bnum">06</span><h2>Приём и увольнения</h2><span class="bsub">по месяцам 2026</span></div>
     <div class="card">
       <div class="bars">
         <div class="grp"><div class="pair"><div class="bar2 in" style="height:67px"><span class="t num">4</span></div><div class="bar2 out" style="height:50px"><span class="t num">3</span></div></div><div class="m2">Янв</div></div>
@@ -258,7 +415,7 @@
 
   <!-- 6 РУКОВОДИТЕЛИ -->
   <section class="block" id="b6">
-    <div class="block-head"><span class="bnum">06</span><h2>Руководители</h2><span class="bsub">адаптация набора 2026</span></div>
+    <div class="block-head"><span class="bnum">07</span><h2>Руководители</h2><span class="bsub">адаптация набора 2026</span></div>
     <div class="card">
       <table class="num">
         <thead><tr><th>РОП</th><th>Взял</th><th>Уволено</th><th>Текучка</th><th>Оценка</th></tr></thead>
@@ -277,7 +434,7 @@
 
   <!-- 7 ОНБОРДИНГ -->
   <section class="block" id="b7">
-    <div class="block-head"><span class="bnum">07</span><h2>Онбординг</h2><span class="bsub">выход на первую бронь</span></div>
+    <div class="block-head"><span class="bnum">08</span><h2>Онбординг</h2><span class="bsub">выход на первую бронь</span></div>
     <div class="grid3">
       <div class="kpi w"><div class="lbl">Доходят до 1-й брони</div><div class="val num">28%</div><div class="sub2 w">5 из 18 стажёров</div></div>
       <div class="kpi"><div class="lbl">Срок до 1-й брони</div><div class="val num">~52 дня</div><div class="sub2">в среднем</div></div>
@@ -288,7 +445,7 @@
 
   <!-- 8 ПРОДУКТИВНОСТЬ -->
   <section class="block" id="b8">
-    <div class="block-head"><span class="bnum">08</span><h2>Продуктивность по стажу</h2><span class="bsub">доход брокера по мере опыта</span></div>
+    <div class="block-head"><span class="bnum">09</span><h2>Продуктивность по стажу</h2><span class="bsub">доход брокера по мере опыта</span></div>
     <div class="card">
       <div class="stage"><div class="name">0–2 мес</div><div class="track"><div class="fill" style="width:6%"></div></div><div class="n num">4 тыс</div><div class="conv"></div></div>
       <div class="stage"><div class="name">3–4 мес</div><div class="track"><div class="fill" style="width:6%"></div></div><div class="n num">57 тыс</div><div class="conv"></div></div>
@@ -352,6 +509,171 @@ function sha256(ascii){
     blocks.forEach(function(b){ob.observe(b);});
   }
   if(links[0])links[0].classList.add("active");
+})();
+
+/* ==== Воронка найма — live-загрузка из Google-таблицы (годовая сводка) ==== */
+(function(){
+  var SHEET="1Bx7UYXtq-kEzVHxXghO3vcjOTT9g-tEr-N-QFJRGhLg", GID="23521848", GOAL=40;
+  var ROW={o:9, inv:11, mt:13, vy:15, fx:17}; // строки Факта в JSON (со сдвигом на заголовок)
+  var MON=["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"];
+  var SHORT=["янв","фев","мар","апр","май","июн","июл","авг","сен","окт","ноя","дек"];
+  function factCol(i){return 10+6*i;} function planCol(i){return 9+6*i;}
+  var Y25={
+    o:[1227,1349,2058,1480,428,1141,801,777,691,943,1226,778],
+    inv:[106,56,65,115,101,82,55,54,61,66,54,79],
+    mt:[24,37,53,90,48,62,47,34,46,41,44,40],
+    vy:[8,7,8,17,7,6,8,7,4,2,11,5],
+    fx:[5,6,3,9,4,3,7,4,3,1,4,6]
+  };
+  var S26={ o:[898,1066,498,371,310,699,448,118], inv:[80,60,49,23,29,34,32,13], mt:[49,50,39,17,23,18,25,8], vy:[4,9,8,1,1,3,5,2], fx:[0,11,7,2,1,1,5,2], planVy:[4,11,7,2,4,3,5,4] };
+
+  var done=false, timer=null;
+  var status=document.getElementById("fn-status");
+
+  window.__fnFunnelCb=function(resp){
+    if(done) return; done=true; clearTimeout(timer);
+    try{ if(!resp||!resp.table) throw 0; var M=monthsFromLive(resp.table.rows); if(!M.length) throw 0; fill(M,true); }
+    catch(e){ fallback(); }
+  };
+  function fallback(){
+    if(status){ status.className="src err"; status.textContent="Нет связи с таблицей — показаны резервные данные (последний снимок)."; }
+    fill(monthsFromStatic(), false);
+  }
+  function monthsFromLive(rows){
+    function g(r,c){ var rr=rows[r]; if(!rr||!rr.c) return null; var cc=rr.c[c]; return (cc&&cc.v!=null)? +cc.v : null; }
+    var M=[];
+    for(var i=0;i<12;i++){
+      var o=g(ROW.o,factCol(i)); if(o==null||o<=0) continue;
+      M.push({ i:i, name:MON[i], sh:SHORT[i], o:o, inv:g(ROW.inv,factCol(i))||0, mt:g(ROW.mt,factCol(i))||0,
+               vy:g(ROW.vy,factCol(i))||0, fx:g(ROW.fx,factCol(i))||0, planVy:g(ROW.vy,planCol(i)) });
+    }
+    return M;
+  }
+  function monthsFromStatic(){
+    var M=[];
+    for(var i=0;i<S26.o.length;i++){ M.push({ i:i, name:MON[i], sh:SHORT[i], o:S26.o[i], inv:S26.inv[i], mt:S26.mt[i], vy:S26.vy[i], fx:S26.fx[i], planVy:S26.planVy[i] }); }
+    return M;
+  }
+  function fmt(n){ n=Math.round(n); return n>=1000 ? String(n).replace(/\B(?=(\d{3})+(?!\d))/g," ") : String(n); }
+  function pc0(x){ return Math.round(x*100)+"%"; }
+  function pc1(x){ return (x*100).toFixed(1).replace(".",",")+"%"; }
+
+  var NOHIRE=[3,4,8]; // месяцы 2026 без набора: апрель, май, сентябрь
+  function noHire(i){ return NOHIRE.indexOf(i)>=0; }
+  function fill(M, live){
+    M.forEach(function(m){ m.ci = m.o? m.inv/m.o : 0; });
+    var n=M.length;
+
+    // ---- накопительная воронка ----
+    var sum=function(k){ return M.reduce(function(a,m){return a+m[k];},0); };
+    var O=sum("o"),INV=sum("inv"),MT=sum("mt"),VY=sum("vy"),FX=sum("fx");
+    function stage(name,val,conv){
+      var w=Math.max(4, Math.round(Math.pow(val/O,0.5)*100));
+      return '<div class="stage"><div class="name">'+name+'</div><div class="track"><div class="fill" style="width:'+w+'%"></div></div>'+
+             '<div class="n num">'+fmt(val)+'</div><div class="conv">'+(conv==null?"—":"<b>"+conv+"</b>")+'</div></div>';
+    }
+    document.getElementById("fn-year").innerHTML =
+      stage("Отклики",O,null)+
+      stage("Приглашённые",INV, pc1(INV/O))+
+      stage("Встречи",MT, pc0(MT/INV))+
+      stage("Выведенные",VY, pc0(VY/MT))+
+      stage("Закреплённые",FX, pc0(FX/VY));
+
+    var ciYear=INV/O;
+    document.getElementById("fn-year-note").innerHTML =
+      'Узкое место весь год — <b>отклик → приглашение (~'+pc0(ciYear)+')</b>. Верх воронки огромный ('+fmt(O)+' откликов), но почти не конвертит. Цель года — устойчивый пул из <b>'+GOAL+' брокеров</b>; закреплено <b>'+FX+' из '+GOAL+'</b>, без поправки на отток.';
+
+    // ---- таблица по месяцам ----
+    function judge(m){
+      var pv=m.planVy, r=pv? m.vy/pv : null;
+      if(m.vy===0 && m.fx===0) return {c:"w",t:"нет вывода"};
+      if(m.fx===0)             return {c:"w",t:"старт"};
+      if(r!=null && r>=1 && m.fx>=m.vy) return {c:"g",t:"сильный"};
+      if(r!=null && r<0.5)     return {c:"b",t:"провал"};
+      if(m.fx>=3)              return {c:"g",t:"рост пула"};
+      if(m.fx>=m.vy && m.vy>0) return {c:"g",t:"ок"};
+      return {c:"w",t:"слабо"};
+    }
+    var tb="", pill={g:"g",w:"w",b:"b"};
+    M.forEach(function(m){
+      var j=noHire(m.i)? {c:"b",t:"без набора"} : judge(m);
+      tb+='<tr><td>'+m.name+'</td><td>'+fmt(m.o)+'</td><td>'+fmt(m.inv)+'</td><td>'+fmt(m.mt)+'</td><td>'+m.vy+'</td><td>'+m.fx+'</td><td>'+pc1(m.ci)+'</td>'+
+          '<td><span class="pill '+pill[j.c]+'">'+j.t+'</span></td></tr>';
+    });
+    tb+='<tr style="border-top:2px solid var(--ink); font-weight:800"><td>Год</td><td>'+fmt(O)+'</td><td>'+fmt(INV)+'</td><td>'+fmt(MT)+'</td><td>'+VY+'</td><td>'+FX+'</td><td>'+pc1(ciYear)+'</td><td><span class="pill w">'+FX+' / '+GOAL+'</span></td></tr>';
+    document.getElementById("fn-tbody").innerHTML=tb;
+
+    // ---- сравнение с 2025 (сопоставимые месяцы янв..N) ----
+    (function(){
+      var s25={o:0,vy:0,fx:0,inv:0}, s26={o:0,vy:0,fx:0,inv:0};
+      for(var i=0;i<n;i++){ s25.o+=Y25.o[i]; s25.vy+=Y25.vy[i]; s25.fx+=Y25.fx[i]; s25.inv+=Y25.inv[i];
+                            s26.o+=M[i].o; s26.vy+=M[i].vy; s26.fx+=M[i].fx; s26.inv+=M[i].inv; }
+      var ci25=s25.inv/s25.o, ci26=s26.inv/s26.o;
+      function kpi(lbl,v26,v25,better,isPct){
+        var d=v26-v25, cls= better? (d>0?"g":(d<0?"b":"")) : "";
+        var dp=(v26-v25)*100; var dtxt = isPct ? ((dp>0?"+":"")+dp.toFixed(1).replace(".",",")+" п.п.") : ((d>0?"+":"")+fmt(d));
+        var sub = (isPct? pc1(v25) : fmt(v25))+" в 2025 · Δ "+dtxt;
+        return '<div class="kpi '+cls+'"><div class="lbl">'+lbl+'</div><div class="val num">'+(isPct?pc1(v26):fmt(v26))+'</div><div class="sub2 '+cls+'">'+sub+'</div></div>';
+      }
+      document.getElementById("cmp-kpis").innerHTML =
+        kpi("Отклики",s26.o,s25.o,false,false)+kpi("Выведено",s26.vy,s25.vy,true,false)+
+        kpi("Закреплено",s26.fx,s25.fx,true,false)+kpi("Конв. отклик→пригл.",ci26,ci25,true,true);
+      var ct="";
+      for(var k=0;k<n;k++){
+        var m=M[k], up=m.fx>Y25.fx[k], dn=m.fx<Y25.fx[k];
+        var fxCell = dn?'<td style="color:var(--bad)">'+m.fx+'</td>':(up?'<td style="color:var(--good)">'+m.fx+'</td>':'<td>'+m.fx+'</td>');
+        var nameCell = noHire(m.i) ? (m.name+'<span style="color:var(--bad); font-size:11px; font-weight:600"> · без набора</span>') : m.name;
+        ct+='<tr><td>'+nameCell+'</td><td>'+fmt(Y25.o[k])+'</td><td>'+fmt(m.o)+'</td><td>'+Y25.vy[k]+'</td><td>'+m.vy+'</td><td>'+Y25.fx[k]+'</td>'+fxCell+'</tr>';
+      }
+      ct+='<tr style="border-top:2px solid var(--ink); font-weight:800"><td>Σ янв–'+M[n-1].sh+'</td><td>'+fmt(s25.o)+'</td><td>'+fmt(s26.o)+'</td><td>'+s25.vy+'</td><td>'+s26.vy+'</td><td>'+s25.fx+'</td><td>'+s26.fx+'</td></tr>';
+      document.getElementById("cmp-tbody").innerHTML=ct;
+      document.getElementById("cmp-range").textContent="янв–"+M[n-1].sh+" · 2026 к 2025";
+      window.__cmp={s25:s25,s26:s26,ci25:ci25,ci26:ci26};
+    })();
+
+    // ---- характеристика по месяцам (авто) ----
+    var mr="";
+    M.forEach(function(m){
+      var j=judge(m), parts=[];
+      if(noHire(m.i)){ j={c:"b",t:"без набора"}; }
+      var pvtxt = m.planVy ? (m.vy+"/"+m.planVy+" ("+Math.round(m.vy/m.planVy*100)+"%)") : (""+m.vy);
+      if(noHire(m.i)) parts.push(m.vy>0 ? ("<b>Набора не было</b> — "+m.vy+" чел. взяли в виде исключения.") : "<b>Набора не было.</b>");
+      parts.push("Вывод "+pvtxt+", закреплено "+m.fx+".");
+      parts.push("Конв. отклик→приглашение "+pc1(m.ci)+".");
+      if(m.fx===0) parts.push("Пул за месяц не вырос.");
+      else if(m.fx>=3) parts.push("Пул уверенно прирос.");
+      if(m.ci>=0.10) parts.push("Сильный верх воронки — качеством, а не валом.");
+      else if(m.ci<0.06) parts.push("Верх воронки почти не конвертит.");
+      if(Y25.fx[m.i]!=null){ var dl=m.fx-Y25.fx[m.i]; parts.push("Год назад в этом месяце — "+Y25.fx[m.i]+" закр. ("+(dl>0?"+"+dl:(dl<0?dl:"±0"))+" к 2026)."); }
+      mr+='<div class="mrow '+j.c+'"><div class="mm">'+m.name+'</div><div class="mt">'+parts.join(" ")+'</div></div>';
+    });
+    document.getElementById("fn-mread").innerHTML=mr;
+
+    // ---- годовой вывод (авто) ----
+    var pace=FX/n, proj=Math.round(pace*12), gap=GOAL-FX, c=window.__cmp;
+    var nh=0; M.forEach(function(m){ if(noHire(m.i)) nh++; });
+    var nhTxt = nh? (" При этом в 2025-м набор шёл каждый месяц, а в 2026-м "+nh+" месяца (апрель, май, сентябрь) прошли <b>вообще без набора</b> — отсюда основной разрыв.") : "";
+    var vs = c ? (" За тот же период 2025-го закрепили "+c.s25.fx+" (сейчас "+c.s26.fx+", "+(c.s26.fx>=c.s25.fx?"не хуже":"хуже на "+(c.s25.fx-c.s26.fx))+") — и это при меньшем потоке откликов ("+fmt(c.s26.o)+" против "+fmt(c.s25.o)+") и более высокой конверсии отклик→приглашение ("+pc1(c.ci26)+" против "+pc1(c.ci25)+"): работаем чище, но меньшим объёмом."+nhTxt) : "";
+    document.getElementById("fn-verdict").innerHTML =
+      "<b>Вывод по году:</b> к цели «пул "+GOAL+" эффективных брокеров» закреплено <b>"+FX+" из "+GOAL+"</b> за "+n+" мес" +
+      (gap>0? " (осталось "+gap+")":"") + ". Средний темп ~"+pace.toFixed(1).replace(".",",")+" закр./мес → проекция <b>~"+proj+"</b> к декабрю, без поправки на отток." + vs +
+      " Рычаг тот же: поднимать конверсию отклик→приглашение и удерживать выведенных первые 90 дней.";
+
+    // ---- статус / диапазон ----
+    var rEl=document.getElementById("fn-range"); if(rEl) rEl.textContent="янв–"+M[n-1].sh+" 2026";
+    if(live && status){
+      status.className="src ok";
+      var d=new Date();
+      status.textContent="2026 — из Google-таблицы (годовая сводка) · 2025 — эталон прошлого года · обновлено "+String(d.getDate()).padStart(2,"0")+"."+String(d.getMonth()+1).padStart(2,"0")+"."+d.getFullYear();
+    }
+  }
+
+  // загрузка через JSONP (обходит CORS)
+  var s=document.createElement("script");
+  s.src="https://docs.google.com/spreadsheets/d/"+SHEET+"/gviz/tq?gid="+GID+"&tqx=responseHandler:__fnFunnelCb";
+  s.onerror=function(){ if(!done){ done=true; fallback(); } };
+  timer=setTimeout(function(){ if(!done){ done=true; fallback(); } }, 9000);
+  document.head.appendChild(s);
 })();
 </script>
 </body>
