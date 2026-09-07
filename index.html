@@ -43,6 +43,15 @@
   .nav a:hover{color:var(--ink); border-color:var(--faint)}
   .nav a.active{color:#fff; background:var(--olive); border-color:var(--olive)}
   .block{scroll-margin-top:66px; margin-bottom:34px}
+  /* постраничный режим: показываем один блок */
+  body.paged .block{display:none}
+  body.paged .block.is-open{display:block; animation:pgfade .2s ease}
+  @keyframes pgfade{from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:none}}
+  .pager{display:flex; justify-content:space-between; gap:10px; margin-top:26px; padding-top:16px; border-top:1px solid var(--line)}
+  .pager button{flex:0 0 auto; background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:10px 16px; font-family:var(--sans); font-size:13.5px; font-weight:600; color:var(--ink); cursor:pointer; max-width:48%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .pager button:hover{border-color:var(--faint)}
+  .pager button:disabled{opacity:.35; cursor:default}
+  .pager button.next{margin-left:auto; background:var(--olive); color:#fff; border-color:var(--olive)}
   .block-head{display:flex; align-items:baseline; gap:12px; margin:4px 0 16px; padding-bottom:9px; border-bottom:2px solid var(--ink)}
   .block-head .bnum{font-size:12px; font-weight:800; color:var(--olive); letter-spacing:.1em}
   .block-head h2{font-size:clamp(19px,3vw,23px); font-weight:800; margin:0}
@@ -456,6 +465,8 @@
     </div>
   </section>
 
+  <div class="pager" id="pager"></div>
+
   <footer>
     <span>oazis.estate · People Analytics · 2026</span>
     <span>по брокерам · без админ-персонала · данные-снимок</span>
@@ -500,15 +511,36 @@ function sha256(ascii){
     }else{ document.getElementById("g-err").textContent="Неверный логин или пароль"; document.getElementById("g-pass").value=""; }
   });
 })();
+/* ==== постраничная навигация: один блок = одна страница ==== */
 (function(){
   var links=Array.prototype.slice.call(document.querySelectorAll(".nav a"));
-  var blocks=links.map(function(a){return document.getElementById(a.getAttribute("href").slice(1));}).filter(Boolean);
-  function setA(id){ links.forEach(function(a){ a.classList.toggle("active",a.getAttribute("href").slice(1)===id); }); }
-  if("IntersectionObserver" in window){
-    var ob=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting)setA(en.target.id);});},{rootMargin:"-45% 0px -50% 0px"});
-    blocks.forEach(function(b){ob.observe(b);});
+  var ids=links.map(function(a){return a.getAttribute("href").slice(1);});
+  var labels=links.map(function(a){return a.textContent;});
+  var pager=document.getElementById("pager");
+
+  function show(id, scroll){
+    var idx=ids.indexOf(id); if(idx<0){ idx=0; id=ids[0]; }
+    Array.prototype.forEach.call(document.querySelectorAll(".block"),function(b){ b.classList.toggle("is-open", b.id===id); });
+    links.forEach(function(a){ a.classList.toggle("active", a.getAttribute("href").slice(1)===id); });
+    // активную вкладку — в зону видимости в горизонтальном меню
+    if(links[idx] && links[idx].scrollIntoView) try{ links[idx].scrollIntoView({inline:"center",block:"nearest"}); }catch(e){}
+    // кнопки Назад/Вперёд
+    if(pager){
+      var prev=idx>0?('<button class="prev" data-go="'+ids[idx-1]+'">← '+labels[idx-1]+'</button>'):'<button class="prev" disabled>←</button>';
+      var next=idx<ids.length-1?('<button class="next" data-go="'+ids[idx+1]+'">'+labels[idx+1]+' →</button>'):'<button class="next" disabled>→</button>';
+      pager.innerHTML=prev+next;
+    }
+    try{ history.replaceState(null,"","#"+id); }catch(e){}
+    if(scroll!==false) window.scrollTo(0,0);
   }
-  if(links[0])links[0].classList.add("active");
+
+  document.body.classList.add("paged");
+  links.forEach(function(a){ a.addEventListener("click",function(ev){ ev.preventDefault(); show(a.getAttribute("href").slice(1)); }); });
+  if(pager) pager.addEventListener("click",function(ev){ var b=ev.target.closest("button[data-go]"); if(b) show(b.getAttribute("data-go")); });
+  window.addEventListener("hashchange",function(){ show((location.hash||"").slice(1)); });
+
+  var init=(location.hash||"").slice(1);
+  show(ids.indexOf(init)>=0?init:ids[0], false);
 })();
 
 /* ==== Воронка найма — live-загрузка из Google-таблицы (годовая сводка) ==== */
