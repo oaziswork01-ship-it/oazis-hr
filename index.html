@@ -392,8 +392,10 @@
         <div class="kpi"><div class="lbl">Конв. отклик→пригл.</div><div class="val num">—</div><div class="sub2">загрузка…</div></div>
       </div>
 
-      <!-- график: закреплено по месяцам -->
-      <p class="eyebrow" style="margin-top:22px">Закреплено по месяцам · 2025 (с разбивкой на удалёнку) vs 2026</p>
+      <!-- графики: выведено и закреплено по месяцам -->
+      <p class="eyebrow" style="margin-top:22px">Выведено по месяцам · 2025 (с разбивкой на удалёнку) vs 2026</p>
+      <div id="cmp-chart-vy" class="chartwrap"></div>
+      <p class="eyebrow" style="margin-top:20px">Закреплено по месяцам · 2025 (с разбивкой на удалёнку) vs 2026</p>
       <div id="cmp-chart" class="chartwrap"></div>
       <div id="cmp-legend" class="clegend"></div>
       <p class="note" id="cmp-remote"></p>
@@ -684,28 +686,32 @@ function sha256(ascii){
       document.getElementById("cmp-range").textContent="янв–"+M[n-1].sh+" · 2026 к 2025";
       window.__cmp={s25:s25,s26:s26,ci25:ci25,ci26:ci26};
 
-      // ---- график: закреплено по месяцам, 2025 (офис/прочее + удалёнка) vs 2026 ----
-      var maxV=1; for(var q=0;q<n;q++){ maxV=Math.max(maxV,Y25.fx[q],M[q].fx); }
-      var H=140; function hp(v){ return Math.round(v/maxV*H); }
-      var chart="";
-      for(var q=0;q<n;q++){
-        var tot25=Y25.fx[q], rem=Y25.fxOnline[q]||0, base=tot25-rem, v26=M[q].fx;
-        chart+='<div style="flex:1 0 auto; min-width:44px; display:flex; flex-direction:column; align-items:center; justify-content:flex-end">'+
-          '<div style="display:flex; align-items:flex-end; gap:5px; height:'+H+'px">'+
-            '<div style="width:16px; display:flex; flex-direction:column-reverse; position:relative">'+
-              '<div style="height:'+hp(base)+'px; background:var(--olive-soft); border-radius:0 0 4px 4px"></div>'+
-              (rem>0?'<div title="удалёнка" style="height:'+hp(rem)+'px; background:var(--warn); border-radius:4px 4px 0 0"></div>':'')+
-              '<span style="position:absolute; top:-16px; left:50%; transform:translateX(-50%); font-size:10.5px; font-weight:700; color:var(--muted)">'+tot25+'</span>'+
+      // ---- графики: 2025 (офис/прочее + удалёнка) vs 2026 ----
+      function buildChart(id, arr25, arrRem, key26){
+        var maxV=1; for(var q=0;q<n;q++){ maxV=Math.max(maxV, arr25[q], M[q][key26]); }
+        var H=130; function hp(v){ return Math.round(v/maxV*H); }
+        var chart="";
+        for(var q=0;q<n;q++){
+          var tot25=arr25[q], rem=arrRem[q]||0, base=tot25-rem, v26=M[q][key26];
+          chart+='<div style="flex:1 0 auto; min-width:44px; display:flex; flex-direction:column; align-items:center; justify-content:flex-end">'+
+            '<div style="display:flex; align-items:flex-end; gap:5px; height:'+H+'px">'+
+              '<div style="width:16px; display:flex; flex-direction:column-reverse; position:relative">'+
+                '<div style="height:'+hp(base)+'px; background:var(--olive-soft); border-radius:0 0 4px 4px"></div>'+
+                (rem>0?'<div title="удалёнка" style="height:'+hp(rem)+'px; background:var(--warn); border-radius:4px 4px 0 0"></div>':'')+
+                '<span style="position:absolute; top:-16px; left:50%; transform:translateX(-50%); font-size:10.5px; font-weight:700; color:var(--muted)">'+tot25+'</span>'+
+              '</div>'+
+              '<div style="width:16px; position:relative">'+
+                '<div style="height:'+hp(v26)+'px; background:var(--olive); border-radius:4px 4px 0 0"></div>'+
+                '<span style="position:absolute; top:-16px; left:50%; transform:translateX(-50%); font-size:10.5px; font-weight:800">'+v26+'</span>'+
+              '</div>'+
             '</div>'+
-            '<div style="width:16px; position:relative">'+
-              '<div style="height:'+hp(v26)+'px; background:var(--olive); border-radius:4px 4px 0 0"></div>'+
-              '<span style="position:absolute; top:-16px; left:50%; transform:translateX(-50%); font-size:10.5px; font-weight:800">'+v26+'</span>'+
-            '</div>'+
-          '</div>'+
-          '<div style="font-size:11px; color:var(--muted); margin-top:7px; white-space:nowrap">'+M[q].sh+'</div>'+
-        '</div>';
+            '<div style="font-size:11px; color:var(--muted); margin-top:7px; white-space:nowrap">'+M[q].sh+'</div>'+
+          '</div>';
+        }
+        document.getElementById(id).innerHTML='<div style="display:flex; align-items:flex-end; gap:10px; height:'+(H+24)+'px; padding-top:20px; min-width:'+(n*54)+'px">'+chart+'</div>';
       }
-      document.getElementById("cmp-chart").innerHTML='<div style="display:flex; align-items:flex-end; gap:10px; height:'+(H+24)+'px; padding-top:20px; min-width:'+(n*54)+'px">'+chart+'</div>';
+      buildChart("cmp-chart-vy", Y25.vy, Y25.vyOnline, "vy");
+      buildChart("cmp-chart", Y25.fx, Y25.fxOnline, "fx");
       document.getElementById("cmp-legend").innerHTML=
         '<span><span class="dot" style="background:var(--olive-soft)"></span> 2025 · офис/прочие каналы</span>'+
         '<span><span class="dot" style="background:var(--warn)"></span> 2025 · удалёнка (онлайн)</span>'+
