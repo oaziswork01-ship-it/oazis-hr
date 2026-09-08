@@ -199,8 +199,8 @@
       <div class="kpi"><div class="lbl">Выведено брокеров в 2026</div><div class="val num">22</div><div class="sub2">когорта этого года</div></div>
       <div class="kpi g"><div class="lbl">Маржа когорты 2026</div><div class="val num">12,4 млн ₽</div><div class="sub2 g">выручка 17,2 − ФОТ 4,86</div></div>
       <div class="kpi g"><div class="lbl">Окупаемость найма 2026</div><div class="val num">×6</div><div class="sub2 g">и будет расти</div></div>
-      <div class="kpi b"><div class="lbl">Ранний отток (&lt;90 дн)</div><div class="val num">41%</div><div class="sub2 b">почти половина ушедших</div></div>
-      <div class="kpi w"><div class="lbl">Доходят до 1-й брони</div><div class="val num">28%</div><div class="sub2 w">в среднем за ~52 дня</div></div>
+      <div class="kpi b"><div class="lbl">Ранний отток (&lt;90 дн)</div><div class="val num">70%</div><div class="sub2 b">7 из 10 ушедших</div></div>
+      <div class="kpi w"><div class="lbl">Дошли до 1-й брони</div><div class="val num">50%</div><div class="sub2 w">10 из 20, в среднем ~54 дня</div></div>
       <div class="kpi"><div class="lbl">Затраты на найм 2026</div><div class="val num">1,95 млн ₽</div><div class="sub2">против 12,4 млн маржи</div></div>
     </div>
   </section>
@@ -350,7 +350,7 @@
 
     <!-- воронка за год, накопительно -->
     <div class="card" style="margin-bottom:18px">
-      <p class="eyebrow">Воронка за год · накопительно</p>
+      <p class="eyebrow" id="fn-year-eyebrow">Воронка · текущий месяц</p>
       <div id="fn-year">
       <div class="stage"><div class="name">Отклики</div><div class="track"><div class="fill" style="width:100%"></div></div><div class="n num">4408</div><div class="conv">—</div></div>
       <div class="stage"><div class="name">Приглашённые</div><div class="track"><div class="fill" style="width:7%"></div></div><div class="n num">320</div><div class="conv"><b>7,3%</b></div></div>
@@ -451,27 +451,44 @@
       <table class="num">
         <thead><tr><th>РОП</th><th>Взял</th><th>Уволено</th><th>Текучка</th><th>Оценка</th></tr></thead>
         <tbody>
-          <tr><td>Миропольцев</td><td>2</td><td>0</td><td>0%</td><td><span class="pill g">лучшая</span></td></tr>
-          <tr><td>Василиади</td><td>3</td><td>1</td><td>33%</td><td><span class="pill g">хорошо</span></td></tr>
-          <tr><td>Атанесова</td><td>4</td><td>2</td><td>50%</td><td><span class="pill w">средне</span></td></tr>
-          <tr><td>Нисова</td><td>4</td><td>2</td><td>50%</td><td><span class="pill w">средне</span></td></tr>
+          <tr><td>Миропольцев</td><td>4</td><td>0</td><td>0%</td><td><span class="pill g">лучшая</span></td></tr>
+          <tr><td>Василиади</td><td>3</td><td>2</td><td>67%</td><td><span class="pill b">высокая</span></td></tr>
           <tr><td>Рамонова</td><td>2</td><td>1</td><td>50%</td><td><span class="pill w">средне</span></td></tr>
-          <tr><td>Мамбеталиева</td><td>2</td><td>2</td><td>100%</td><td><span class="pill b">высокая</span></td></tr>
+          <tr><td>Фаткулина</td><td>1</td><td>0</td><td>0%</td><td><span class="pill g">мало данных</span></td></tr>
+          <tr><td>Админ-персонал</td><td>—</td><td>—</td><td>—</td><td><span class="pill w">нет данных</span></td></tr>
         </tbody>
       </table>
-      <p class="note">Текучка набора сильно зависит от руководителя: Миропольцев/Василиади удерживают, Мамбеталиева/Атанесова/Нисова теряют половину и больше. Малые выборки (n≤2) — ориентир, не приговор.</p>
+      <p class="note">Данные пересчитаны по пофамильному реестру (когорта 2026). Миропольцев удерживает весь набор (0%), у Василиади ушли 2 из 3. Малые выборки (n≤2) — ориентир, не приговор. По админ-персоналу цифр в реестре брокеров нет — нужны данные отдельно.</p>
     </div>
   </section>
 
   <!-- 7 ОНБОРДИНГ -->
   <section class="block" id="b7">
-    <div class="block-head"><span class="bnum">08</span><h2>Онбординг</h2><span class="bsub">выход на первую бронь</span></div>
+    <div class="block-head"><span class="bnum">08</span><h2>Онбординг</h2><span class="bsub">когорта 2026 · 20 человек</span></div>
     <div class="grid3">
-      <div class="kpi w"><div class="lbl">Доходят до 1-й брони</div><div class="val num">28%</div><div class="sub2 w">5 из 18 стажёров</div></div>
-      <div class="kpi"><div class="lbl">Срок до 1-й брони</div><div class="val num">~52 дня</div><div class="sub2">в среднем</div></div>
-      <div class="kpi b"><div class="lbl">Не доходят до результата</div><div class="val num">72%</div><div class="sub2 b">3 из 4 выведенных</div></div>
+      <div class="kpi w"><div class="lbl">Дошли до 1-й брони</div><div class="val num">50%</div><div class="sub2 w">10 из 20 нанятых</div></div>
+      <div class="kpi"><div class="lbl">Срок до 1-й брони</div><div class="val num">~54 дня</div><div class="sub2">в среднем (от 2 до 96)</div></div>
+      <div class="kpi b"><div class="lbl">Ушли из когорты</div><div class="val num">50%</div><div class="sub2 b">10 из 20, из них 8 — без брони</div></div>
     </div>
-    <p class="note" style="margin-top:14px">Онбординг — самая дырявая часть воронки. Между «вывели» и «принёс первую бронь» теряется 3 из 4. Это главный резерв роста прибыли.</p>
+
+    <div class="card" style="margin-top:18px">
+      <p class="eyebrow">Когда уходят — отток по сроку жизни (10 уволенных)</p>
+      <div class="stage"><div class="name">до 30 дней</div><div class="track"><div class="fill" style="width:33%; background:var(--bad)"></div></div><div class="n num">1</div><div class="conv">10%</div></div>
+      <div class="stage"><div class="name">31–60 дней</div><div class="track"><div class="fill" style="width:100%; background:var(--bad)"></div></div><div class="n num">3</div><div class="conv">30%</div></div>
+      <div class="stage"><div class="name">61–90 дней</div><div class="track"><div class="fill" style="width:100%; background:var(--warn)"></div></div><div class="n num">3</div><div class="conv">30%</div></div>
+      <div class="stage"><div class="name">90+ дней</div><div class="track"><div class="fill" style="width:100%; background:var(--olive-soft)"></div></div><div class="n num">3</div><div class="conv">30%</div></div>
+      <p class="note">Медиана срока жизни уволенного — <b>62 дня</b>. Ранний отток (до 90 дней) — <b>7 из 10</b> увольнений.</p>
+    </div>
+
+    <div class="card" style="margin-top:18px">
+      <p class="eyebrow">Анализ — кто задерживается, кто уходит и когда</p>
+      <div class="mread">
+        <div class="mrow b"><div class="mm">Уходят «пустыми»</div><div class="mt"><b>8 из 10 уволенных</b> ушли, так и не выйдя на первую бронь — найм по ним не окупился. Только 2 уволенных успели дать бронь до ухода.</div></div>
+        <div class="mrow b"><div class="mm">Критическое окно</div><div class="mt">Основной отток — <b>первые 3 месяца</b>: 7 из 10 увольнений пришлись на срок до 90 дней (медиана 62 дня, самый ранний — 21 день). После 3 месяцев уходят заметно реже.</div></div>
+        <div class="mrow g"><div class="mm">Кто задерживается</div><div class="mt">Остаются те, кто <b>дошёл до первой брони</b> — в среднем к 54-му дню. Из 10 действующих <b>8 уже с бронью</b> — именно они формируют пул. Дошёл до сделки → остался.</div></div>
+        <div class="mrow w"><div class="mm">Вывод</div><div class="mt">Развилка судьбы новичка — <b>окно день 30–90</b>: либо выходит на бронь и закрепляется, либо уходит без результата. Главный рычаг — <b>довести до первой сделки за ~8 недель</b>: ускорение выхода на бронь напрямую срезает «пустой» отток.</div></div>
+      </div>
+    </div>
   </section>
 
   <!-- 8 ПРОДУКТИВНОСТЬ -->
@@ -623,21 +640,28 @@ function sha256(ascii){
     // ---- накопительная воронка ----
     var sum=function(k){ return M.reduce(function(a,m){return a+m[k];},0); };
     var O=sum("o"),INV=sum("inv"),MT=sum("mt"),VY=sum("vy"),FX=sum("fx");
-    function stage(name,val,conv){
-      var w=Math.max(4, Math.round(Math.pow(val/O,0.5)*100));
+    var ciYear=INV/O;
+
+    // ---- верхняя воронка: ТЕКУЩИЙ месяц (последний с данными) ----
+    var cm=M[n-1];
+    function stage(name,val,conv,den){
+      var w=Math.max(4, Math.round(Math.pow((den?val/den:0),0.5)*100));
       return '<div class="stage"><div class="name">'+name+'</div><div class="track"><div class="fill" style="width:'+w+'%"></div></div>'+
              '<div class="n num">'+fmt(val)+'</div><div class="conv">'+(conv==null?"—":"<b>"+conv+"</b>")+'</div></div>';
     }
     document.getElementById("fn-year").innerHTML =
-      stage("Отклики",O,null)+
-      stage("Приглашённые",INV, pc1(INV/O))+
-      stage("Встречи",MT, pc0(MT/INV))+
-      stage("Выведенные",VY, pc0(VY/MT))+
-      stage("Закреплённые",FX, pc0(FX/VY));
+      stage("Отклики",cm.o,null,cm.o)+
+      stage("Приглашённые",cm.inv, cm.o?pc1(cm.inv/cm.o):"—", cm.o)+
+      stage("Встречи",cm.mt, cm.inv?pc0(cm.mt/cm.inv):"—", cm.o)+
+      stage("Выведенные",cm.vy, cm.mt?pc0(cm.vy/cm.mt):"—", cm.o)+
+      stage("Закреплённые",cm.fx, cm.vy?pc0(cm.fx/cm.vy):"—", cm.o);
 
-    var ciYear=INV/O;
+    var eb=document.getElementById("fn-year-eyebrow"); if(eb) eb.textContent="Воронка за "+cm.name+" 2026 · текущий месяц";
     document.getElementById("fn-year-note").innerHTML =
-      'Узкое место весь год — <b>отклик → приглашение (~'+pc0(ciYear)+')</b>. Верх воронки огромный ('+fmt(O)+' откликов), но почти не конвертит. Цель года — устойчивый пул из <b>'+GOAL+' брокеров</b>; закреплено <b>'+FX+' из '+GOAL+'</b>, без поправки на отток.';
+      'Показан <b>'+cm.name+'</b> (текущий месяц). '+
+      (noHire(cm.i) ? 'В этом месяце <b>набора не было</b>'+(cm.vy>0?' (взяли '+cm.vy+' в виде исключения)':'')+'. ' :
+        'Отклик→приглашение <b>'+(cm.o?pc1(cm.inv/cm.o):"—")+'</b>, выведено '+cm.vy+', закреплено '+cm.fx+'. ')+
+      'Накопительно за год — <b>'+FX+' закреплений из '+GOAL+'</b> (весь год виден в таблице ниже, строка «Год»).';
 
     // ---- таблица по месяцам ----
     function judge(m){
