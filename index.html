@@ -178,7 +178,7 @@
 <div class="wrap">
   <div class="brand">Oazis Estate · <span>People Analytics</span></div>
   <h1>HR-аналитика найма · 2026</h1>
-  <div class="sub">Полная картина: экономика, окупаемость, источники, руководители, онбординг, воронка. Только брокеры, без админ-персонала.</div>
+  <div class="sub">Полная картина: экономика, окупаемость, источники, текучесть, онбординг, воронка. Брокеры + админ-персонал в блоке текучести.</div>
 
   <nav class="nav">
     <a href="#b1">Обзор</a>
@@ -187,7 +187,6 @@
     <a href="#b3">Источники</a>
     <a href="#b4">Воронка</a>
     <a href="#b5">Приём/увольнения</a>
-    <a href="#b6">Руководители</a>
     <a href="#bturn">Текучесть</a>
     <a href="#b7">Онбординг</a>
     <a href="#b8">Продуктивность</a>
@@ -446,27 +445,9 @@
     </div>
   </section>
 
-  <!-- 6 РУКОВОДИТЕЛИ -->
-  <section class="block" id="b6">
-    <div class="block-head"><span class="bnum">07</span><h2>Руководители</h2><span class="bsub">набор 2026 · январь–август</span></div>
-    <div class="card">
-      <table class="num">
-        <thead><tr><th>РОП</th><th>Взял</th><th>Уволено</th><th>Текучка</th><th>Оценка</th></tr></thead>
-        <tbody>
-          <tr><td>Миропольцев</td><td>4</td><td>0</td><td>0%</td><td><span class="pill g">лучшая</span></td></tr>
-          <tr><td>Рамонова</td><td>2</td><td>1</td><td>50%</td><td><span class="pill w">средне</span></td></tr>
-          <tr><td>Василиади</td><td>3</td><td>2</td><td>67%</td><td><span class="pill b">высокая</span></td></tr>
-          <tr><td>Фаткулина</td><td>1</td><td>0</td><td>0%</td><td><span class="pill g">мало данных</span></td></tr>
-          <tr><td>Админ-персонал</td><td>13</td><td>—</td><td>—</td><td><span class="pill w">нужны увольнения</span></td></tr>
-        </tbody>
-      </table>
-      <p class="note">Только набор <b>2026 года</b> (январь–август). По брокерам — из пофамильного реестра: держит набор <b>Миропольцев (0%)</b>, у Василиади ушли 2 из 3. Малые выборки (n≤2) — ориентир, не приговор. По <b>админ-персоналу</b> за 2026 взяли 13, но увольнения в HR-таблице не разбиты по отделам за 2026 (есть только общий итог за весь период) — дай число уволенных админов за 2026, посчитаю текучку.</p>
-    </div>
-  </section>
-
   <!-- ТЕКУЧЕСТЬ И ДВИЖЕНИЕ -->
   <section class="block" id="bturn">
-    <div class="block-head"><span class="bnum">07·5</span><h2>Текучесть и движение</h2><span class="bsub">реальная текучесть · <span id="tn-range">2026</span></span></div>
+    <div class="block-head"><span class="bnum">07</span><h2>Текучесть и движение</h2><span class="bsub">реальная текучесть · <span id="tn-range">2026</span></span></div>
 
     <div class="src ok" id="tn-status">Данные — выверенный снимок на 08.09.2026 (книга «Сотрудники и партнёры ОЕ»). Автоподключение к таблице — следующим шагом.</div>
 
@@ -475,8 +456,8 @@
       <div class="kpi"><div class="lbl">Брокеры</div><div class="val num">76%</div><div class="sub2">24 увол · годовых ~101%</div></div>
       <div class="kpi g"><div class="lbl">Админ-персонал</div><div class="val num">56%</div><div class="sub2 g">11 увол · было 184%</div></div>
       <div class="kpi b"><div class="lbl">Уволено за 2026</div><div class="val num">35</div><div class="sub2 b">из компании (YTD)</div></div>
-      <div class="kpi"><div class="lbl">Переведено</div><div class="val num">13</div><div class="sub2">внутри — не текучесть</div></div>
-      <div class="kpi"><div class="lbl">Действующих</div><div class="val num">48</div><div class="sub2">брокеры 30 · админ 18</div></div>
+      <div class="kpi"><div class="lbl">Переведено</div><div class="val num">15</div><div class="sub2">внутри — не текучесть</div></div>
+      <div class="kpi"><div class="lbl">Действующих</div><div class="val num">50</div><div class="sub2">брокеры 30 · админ 20</div></div>
     </div>
     <div class="verdict" id="tn-verdict"><b>Вывод:</b> реальная текучесть считается по всем сотрудникам (не только по когорте): <b>уволенные ÷ среднесписочная</b> по человеко-месяцам, переводы исключены. Общая падает <b>128% (2025) → ~91% годовых (2026)</b>. Главный сдвиг — <b>админ-персонал</b> (184%→56%); брокеры держатся (~76%, годовых ~101%), но до цели <b>60%</b> ещё далеко.</div>
 
@@ -496,22 +477,23 @@
     <div class="card" style="margin-top:18px">
       <p class="eyebrow">Действующие отделы брокеров — состав и текучка 2026</p>
       <table class="num" id="tn-dept">
-        <thead><tr><th>Отдел (РГ)</th><th>Работает</th><th>Уволено 2026</th><th>Ушло из отдела<br>(«текучка»)</th></tr></thead>
+        <thead><tr><th>Отдел (РГ)</th><th>Выведено 2026</th><th>Работает</th><th>Уволено 2026</th><th>Текучка</th></tr></thead>
         <tbody>
-          <tr><td>Василиади</td><td>6</td><td>7</td><td style="color:var(--bad)">54%</td></tr>
-          <tr><td>Рамонова</td><td>7</td><td>3</td><td style="color:var(--warn)">30%</td></tr>
-          <tr><td>Фаткулин</td><td>9</td><td>2</td><td>18%</td></tr>
-          <tr><td>Миропольцев</td><td>8</td><td>1</td><td style="color:var(--good)">11%</td></tr>
+          <tr><td>Василиади</td><td>4</td><td>6</td><td>6</td><td style="color:var(--bad)">50%</td></tr>
+          <tr><td>Рамонова</td><td>2</td><td>7</td><td>2</td><td>22%</td></tr>
+          <tr><td>Фаткулин</td><td>1</td><td>9</td><td>2</td><td>18%</td></tr>
+          <tr><td>Миропольцев</td><td>4</td><td>8</td><td>1</td><td style="color:var(--good)">11%</td></tr>
+          <tr style="border-top:2px solid var(--line)"><td>Админ-персонал <small style="color:var(--faint)">все</small></td><td>11</td><td>20</td><td>11</td><td style="color:var(--warn)">35%</td></tr>
         </tbody>
       </table>
-      <p class="note" style="margin-bottom:14px">Увольнение засчитано отделу <b>на момент ухода</b> (куда перевели), не хиринговому. «Текучка» здесь — доля ушедших от всех, кто был в отделе в 2026 (уволено ÷ (работает + уволено)). У <b>Василиади</b> высокая, т.к. отдел <b>принял переводом</b> людей из расформированной Атанесовой, часть которых затем уволилась.</p>
+      <p class="note" style="margin-bottom:14px">«Выведено» — принято в отдел в 2026. «Текучка» — доля ушедших от всех, кто был в отделе в 2026 (уволено ÷ (работает + уволено)). Отдел брокера — по РОП из таблицы увольнений. Админ-персонал показан одной строкой (в реестре действующих админов нет разбивки по руководителям).</p>
       <p class="eyebrow">Архив — расформированные отделы (РГ ушли в брокеры к Фаткулину)</p>
       <table class="num" id="tn-arch">
-        <thead><tr><th>Отдел</th><th>Работает</th><th>Уволено 2026</th><th>Куда ушёл состав</th></tr></thead>
+        <thead><tr><th>Отдел</th><th>Выведено 2026</th><th>Уволено 2026</th><th>Куда ушёл состав</th></tr></thead>
         <tbody>
-          <tr><td>Нисова</td><td>0</td><td>5</td><td>переводы → Рамонова, Миропольцев</td></tr>
-          <tr><td>Гульнара</td><td>0</td><td>4</td><td>переводы → Миропольцев</td></tr>
-          <tr><td>Атанесова</td><td>0</td><td>2</td><td>переводы → Василиади, Рамонова</td></tr>
+          <tr><td>Нисова</td><td>5</td><td>5</td><td>переводы → Рамонова, Миропольцев</td></tr>
+          <tr><td>Атанесова</td><td>4</td><td>4</td><td>переводы → Василиади, Рамонова</td></tr>
+          <tr><td>Гульнара</td><td>1</td><td>4</td><td>переводы → Миропольцев</td></tr>
         </tbody>
       </table>
       <p class="note">Увольнения расформированных отделов <b>остаются в общей текучке компании</b>, но сами отделы закрыты и не участвуют в текущем рейтинге. Сами бывшие РГ (Нисова, Гульнара) теперь работают брокерами в отделе Фаткулина.</p>
@@ -519,11 +501,36 @@
 
     <div class="card" style="margin-top:18px">
       <p class="eyebrow">Движение персонала — переводы между отделами</p>
-      <div class="mread" id="tn-moves">
-        <div class="mrow w"><div class="mm">Апрель 26<small>волна расформирования</small></div><div class="mt">Григорян <b>Нисова→Гульнара</b>; Елиференко <b>Атанесова→Гульнара</b>; Первушина, Власов <b>Нисова→Рамонова</b>; Макаров, Лебедева <b>Атанесова→Рамонова</b>; Осипцова, Чебан, Белоглазов <b>Атанесова→Василиади</b>.</div></div>
-        <div class="mrow w"><div class="mm">Июль 26<small>сбор в Миропольцева</small></div><div class="mt">Фисенко, Арисова <b>Гульнара→Миропольцев</b>; Григорян <b>Гульнара→Миропольцев</b>; Елиференко <b>Гульнара→Миропольцев</b>.</div></div>
-        <div class="mrow g"><div class="mm">Сентябрь 26<small>из отдела Радченко</small></div><div class="mt">Смирнов <b>Радченко→Василиади</b>; Сеферян <b>Радченко→Рамонова</b>.</div></div>
+      <style>#tn-moves td,#tn-moves th{text-align:left; padding-right:16px} #tn-moves .mgrp td{background:var(--surface2); font-weight:700; color:var(--olive); text-transform:uppercase; letter-spacing:.05em; font-size:11px}</style>
+      <div id="tn-moves" style="overflow-x:auto">
+        <table class="num">
+          <thead><tr><th>Сотрудник</th><th>Из отдела</th><th>В отдел</th><th>Статус</th></tr></thead>
+          <tbody>
+            <tr class="mgrp"><td colspan="4">Март 2026 — укрепление Рамоновой</td></tr>
+            <tr><td>Скрипкин</td><td>Василиади</td><td>Рамонова</td><td><span class="pill g">работает</span></td></tr>
+            <tr><td>Капитанова</td><td>Василиади</td><td>Рамонова</td><td><span class="pill g">работает</span></td></tr>
+            <tr class="mgrp"><td colspan="4">Апрель 2026 — волна расформирования (Атанесова / Нисова)</td></tr>
+            <tr><td>Григорян</td><td>Нисова</td><td>Гульнара</td><td><span class="pill g">работает</span></td></tr>
+            <tr><td>Елиференко</td><td>Атанесова</td><td>Гульнара</td><td><span class="pill g">работает</span></td></tr>
+            <tr><td>Первушина</td><td>Нисова</td><td>Рамонова</td><td><span class="pill b">уволен</span></td></tr>
+            <tr><td>Власов</td><td>Нисова</td><td>Рамонова</td><td><span class="pill g">работает</span></td></tr>
+            <tr><td>Макаров</td><td>Атанесова</td><td>Рамонова</td><td><span class="pill g">работает</span></td></tr>
+            <tr><td>Лебедева</td><td>Атанесова</td><td>Рамонова</td><td><span class="pill b">уволен</span></td></tr>
+            <tr><td>Осипцова</td><td>Атанесова</td><td>Василиади</td><td><span class="pill g">работает</span></td></tr>
+            <tr><td>Чебан</td><td>Атанесова</td><td>Василиади</td><td><span class="pill b">уволен</span></td></tr>
+            <tr><td>Белоглазов</td><td>Атанесова</td><td>Василиади</td><td><span class="pill b">уволен</span></td></tr>
+            <tr class="mgrp"><td colspan="4">Июль 2026 — сбор в отдел Миропольцева</td></tr>
+            <tr><td>Фисенко</td><td>Гульнара</td><td>Миропольцев</td><td><span class="pill b">уволен</span></td></tr>
+            <tr><td>Арисова</td><td>Гульнара</td><td>Миропольцев</td><td><span class="pill g">работает</span></td></tr>
+            <tr><td>Григорян</td><td>Гульнара</td><td>Миропольцев</td><td><span class="pill g">работает</span></td></tr>
+            <tr><td>Елиференко</td><td>Гульнара</td><td>Миропольцев</td><td><span class="pill g">работает</span></td></tr>
+            <tr class="mgrp"><td colspan="4">Сентябрь 2026 — из отдела Радченко</td></tr>
+            <tr><td>Смирнов</td><td>Радченко</td><td>Василиади</td><td><span class="pill g">работает</span></td></tr>
+            <tr><td>Сеферян</td><td>Радченко</td><td>Рамонова</td><td><span class="pill g">работает</span></td></tr>
+          </tbody>
+        </table>
       </div>
+      <p class="note">17 переводов у 15 сотрудников (Григорян и Елиференко переводились дважды). Перевод <b>не считается текучестью</b>. Часть переведённых из отдела Атанесовой вскоре уволилась — их увольнение засчитано <b>принявшему</b> отделу.</p>
     </div>
 
     <div class="card" style="margin-top:18px">
@@ -532,7 +539,6 @@
       <div class="gline"><span class="gk">Числитель</span><span>Только <b>увольнения из компании</b>. Внутренние <b>переводы не считаются</b> — человек остался в компании.</span></div>
       <div class="gline"><span class="gk">Знаменатель</span><span><b>Среднесписочная</b> по человеко-месяцам: за каждый месяц считаем, кто реально в штате (нанят ≤ конца месяца и ещё не уволен), затем среднее по месяцам.</span></div>
       <div class="gline"><span class="gk">Годовых</span><span>Показатель за N месяцев <b>× 12/N</b> — чтобы честно сравнивать неполный год с полным.</span></div>
-      <div class="gline"><span class="gk">Брокер / админ</span><span><b>Брокер</b> — РОП входит в список РГ отдела продаж; <b>всё остальное</b> (в т.ч. пустой РОП) — админ-персонал.</span></div>
       <div class="gline read w"><span class="gk">По отделам</span><span class="gv">Увольнение вешается на отдел <b>на момент ухода</b>; в знаменателе человек считается отделу по месяцам фактического пребывания; перевод переносит его в новый отдел.</span></div>
       <p class="note">Числитель тянется живьём из вкладок «Принятые/уволенные 2025» и «…2026», знаменатель — из «Отдел Продаж Н» + «Админ персонал». Переводы ведутся вручную. Цифры — снимок на текущую дату, пересчитываются при обновлении таблиц.</p>
     </div>
@@ -876,7 +882,8 @@ function sha256(ascii){
   var ACTIVE=["Василиади","Рамонова","Фаткулин","Миропольцев"]; // действующие отделы
   var DEST={ "Фисенко":"Миропольцев","Арисова":"Миропольцев","Григорян":"Миропольцев","Елиференко":"Миропольцев",
              "Первушина":"Рамонова","Власов":"Рамонова","Осипцова":"Василиади","Чебан":"Василиади","Белоглазов":"Василиади",
-             "Макаров":"Рамонова","Лебедева":"Рамонова","Смирнов":"Василиади","Сеферян":"Рамонова" };
+             "Макаров":"Рамонова","Лебедева":"Рамонова","Смирнов":"Василиади","Сеферян":"Рамонова",
+             "Скрипкин":"Рамонова","Капитанова":"Рамонова" };
   var status=document.getElementById("tn-status"), seq=0;
 
   function jsonp(sheet){ return new Promise(function(res,rej){
@@ -913,17 +920,24 @@ function sha256(ascii){
       out.push({ nm:nm.trim(), start:gd(c[12]), end:end, rop:(c[14]&&c[14].v)||"", broker:isBroker((c[14]&&c[14].v)||"") }); }
     return out; }
   function parseRoster(resp, isBrokerRoster){ var rows=resp.table.rows, out=[], cur=null;
-    for(var i=1;i<rows.length;i++){ var c=rows[i].c; var nm=c[1]&&c[1].v; if(!nm) continue; nm=nm.trim();
+    for(var i=0;i<rows.length;i++){ var c=rows[i].c; var nm=c[1]&&c[1].v; if(!nm) continue; nm=nm.trim();
+      if(nm.indexOf("ФИО")>=0||nm.indexOf("Сотрудник")>=0) continue; // заголовок
       var role=(c[2]&&c[2].v)||"";
       if(isBrokerRoster && role.indexOf("РГ")>=0){ cur=surname(nm); }
       out.push({ nm:nm, start:gd(c[7]), dept: isBrokerRoster? (role.indexOf("РГ")>=0? surname(nm): cur) : "Админ", isRG: role.indexOf("РГ")>=0 }); }
+    return out; }
+  function parseHired(resp){ var rows=resp.table.rows, out=[];
+    for(var i=0;i<rows.length;i++){ var c=rows[i].c; var nm=c[0]&&c[0].v;
+      if(!nm||typeof nm!=="string"||nm.indexOf("ФИО")>=0||isMonth(nm)) continue;
+      var st=gd(c[2]); if(st&&st.getFullYear()!==2026) continue;
+      var rop=(c[4]&&c[4].v)||""; out.push({ dept:normDept(rop), broker:isBroker(rop) }); }
     return out; }
 
   function hc(pop, dt){ var n=0; for(var i=0;i<pop.length;i++){ var p=pop[i]; if(p.s&&p.s<=dt&&(!p.e||p.e>dt)) n++; } return n; }
   function avgHC(pop, yr, N){ var s=0; for(var m=1;m<=N;m++){ s+=hc(pop, new Date(yr,m,0)); } return s/N; }
 
   function pc(x){ return Math.round(x)+"%"; }
-  function fill(L25,L26,brokRoster,admRoster,live){
+  function fill(L25,L26,brokRoster,admRoster,hired26,live){
     // исключаем Абулхатинову из брокеров
     brokRoster=brokRoster.filter(function(p){ return surname(p.nm)!=="Абулхатинова" && p.dept!=="Абулхатинова"; });
     var brokPop=[], admPop=[], allPop=[];
@@ -954,18 +968,24 @@ function sha256(ascii){
       "<tr><td>Админ-персонал</td><td style='color:var(--bad)'>"+pc(a25.t)+"</td><td style='color:var(--good)'>"+pc(a26.t)+"</td><td>~"+pc(a26.t*ann)+"</td><td>—</td></tr>"+
       "<tr style='border-top:2px solid var(--ink); font-weight:800'><td>Общая</td><td>"+pc(t25.t)+"</td><td>"+pc(t26.t)+"</td><td>~"+pc(t26.t*ann)+"</td><td>60%</td></tr>";
 
-    // отделы: работает (ростер по РГ) + уволено 2026 (по месту ухода)
-    var work={}, fired={};
-    brokRoster.forEach(function(p){ if(!p.isRG){ work[p.dept]=(work[p.dept]||0)+1; } else { work[p.dept]=(work[p.dept]||0)+1; } });
-    L26.forEach(function(x){ if(!x.broker) return; var d=DEST[surname(x.nm)]||normDept(x.rop); fired[d]=(fired[d]||0)+1; });
-    var actRows="", arcRows="";
-    var actList=ACTIVE.slice().map(function(d){ var w=work[d]||0,f=fired[d]||0; return {d:d,w:w,f:f,t: (w+f)? f/(w+f)*100:0}; });
+    // отделы: работает (ростер по РГ) + уволено/выведено 2026 (по РОП из таблиц)
+    var work={}, fired={}, hiredD={};
+    brokRoster.forEach(function(p){ work[p.dept]=(work[p.dept]||0)+1; });
+    L26.forEach(function(x){ if(!x.broker) return; var d=normDept(x.rop); fired[d]=(fired[d]||0)+1; });
+    (hired26||[]).forEach(function(h){ if(!h.broker) return; hiredD[h.dept]=(hiredD[h.dept]||0)+1; });
+    var admHired=(hired26||[]).filter(function(h){return !h.broker;}).length;
+    var admFired=a26.num, admWork=admRoster.length;
+    var actRows="";
+    var actList=ACTIVE.slice().map(function(d){ var w=work[d]||0,f=fired[d]||0,h=hiredD[d]||0; return {d:d,h:h,w:w,f:f,t:(w+f)?f/(w+f)*100:0}; });
     actList.sort(function(x,y){ return y.t-x.t; });
     actList.forEach(function(r){ var col= r.t>=50?"var(--bad)": r.t>=25?"var(--warn)": "var(--good)";
-      actRows+="<tr><td>"+r.d+"</td><td>"+r.w+"</td><td>"+r.f+"</td><td style='color:"+col+"'>"+pc(r.t)+"</td></tr>"; });
+      actRows+="<tr><td>"+r.d+"</td><td>"+r.h+"</td><td>"+r.w+"</td><td>"+r.f+"</td><td style='color:"+col+"'>"+pc(r.t)+"</td></tr>"; });
+    var at=(admWork+admFired)? admFired/(admWork+admFired)*100:0, acol= at>=50?"var(--bad)": at>=25?"var(--warn)":"var(--good)";
+    actRows+="<tr style='border-top:2px solid var(--line)'><td>Админ-персонал <small style='color:var(--faint)'>все</small></td><td>"+admHired+"</td><td>"+admWork+"</td><td>"+admFired+"</td><td style='color:"+acol+"'>"+pc(at)+"</td></tr>";
     document.querySelector("#tn-dept tbody").innerHTML=actRows;
     var arcInfo={ "Нисова":"переводы → Рамонова, Миропольцев","Гульнара":"переводы → Миропольцев","Атанесова":"переводы → Василиади, Рамонова" };
-    Object.keys(fired).forEach(function(d){ if(ACTIVE.indexOf(d)<0){ arcRows+="<tr><td>"+d+"</td><td>0</td><td>"+fired[d]+"</td><td>"+(arcInfo[d]||"расформирован")+"</td></tr>"; } });
+    var arcRows="";
+    Object.keys(fired).forEach(function(d){ if(ACTIVE.indexOf(d)<0){ arcRows+="<tr><td>"+d+"</td><td>"+(hiredD[d]||0)+"</td><td>"+fired[d]+"</td><td>"+(arcInfo[d]||"расформирован")+"</td></tr>"; } });
     if(arcRows) document.querySelector("#tn-arch tbody").innerHTML=arcRows;
 
     if(live&&status){ status.className="src ok"; var d=new Date();
@@ -978,9 +998,10 @@ function sha256(ascii){
     .then(function(r){
       var L25=parseLeavers(r[0]).filter(function(x){return x.end&&x.end.getFullYear()===2025;});
       var L26=parseLeavers(r[1]).filter(function(x){return x.end&&x.end.getFullYear()===2026;});
-      var brok=parseRoster(r[2],true).filter(function(p){return p.start;});
-      var adm=parseRoster(r[3],false).filter(function(p){return p.start;});
-      fill(L25,L26,brok,adm,true);
+      var brok=parseRoster(r[2],true); // все действующие (среднесписочная сама пропустит бездатных)
+      var adm=parseRoster(r[3],false);
+      var hired26=parseHired(r[1]);
+      fill(L25,L26,brok,adm,hired26,true);
     })
     .catch(function(){ if(status){ status.className="src err"; status.textContent="Нет связи с таблицей — показан выверенный снимок на 08.09.2026."; } });
 })();
