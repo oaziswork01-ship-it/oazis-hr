@@ -268,28 +268,29 @@
         <div class="note2">Когорту уже вытянули в плюс несколько быстро выстреливших брокеров. По мере адаптации остальных окупаемость вырастет.</div>
       </div>
     </div>
+    <style>
+      .chart-t{font-size:13px; font-weight:800; margin:0 0 8px; color:var(--ink)}
+      .eco-svg{width:100%; height:auto; overflow:visible; font-family:var(--sans)}
+      .eco-svg rect{cursor:pointer; transition:opacity .12s}
+      .eco-svg rect:hover{opacity:.82}
+      #eco-tip{position:fixed; z-index:60; pointer-events:none; background:var(--ink); color:#F4F1E6; font-size:12px; line-height:1.4; padding:8px 11px; border-radius:8px; max-width:240px; box-shadow:0 8px 24px rgba(28,26,23,.22); display:none}
+      #eco-tip b{color:#fff}
+    </style>
     <div class="card">
-      <p class="eyebrow">Поток денег · когорта 2026</p>
-      <div class="flow">
-        <div class="step"><div class="lbl">Выручка компании</div><div class="bar" style="width:100%"></div><div class="val num">17,2 млн</div></div>
-        <div class="step neg"><div class="lbl">− ФОТ брокеров</div><div class="bar" style="width:28%"></div><div class="val num">−4,86 млн</div></div>
-        <div class="step"><div class="lbl">= Маржа компании</div><div class="bar" style="width:72%"></div><div class="val num">12,4 млн</div></div>
-        <div class="step neg"><div class="lbl">− Затраты на найм</div><div class="bar" style="width:11%"></div><div class="val num">−1,95 млн</div></div>
-        <div class="step res"><div class="lbl">= Чистыми</div><div class="bar" style="width:60%"></div><div class="val num">10,4 млн</div></div>
+      <p class="eyebrow">Визуальная аналитика · когорта 2026 · наведите для деталей</p>
+      <p class="chart-t">1 · Поток денег → чистая прибыль, млн ₽</p>
+      <div class="chartwrap"><div id="eco-waterfall"></div></div>
+      <div class="grid2" style="margin-top:20px">
+        <div><p class="chart-t">2 · Структура затрат на найм (1,95 млн ₽)</p><div id="eco-costs"></div></div>
+        <div><p class="chart-t">3 · Маржа по источникам, млн ₽</p><div id="eco-sources"></div></div>
       </div>
-      <div class="costs">
-        <span class="tag" style="width:100%;font-weight:600">Затраты на найм 2026 — 1,95 млн:</span>
-        <span class="chip">ЗП рекрутеров <b>0,97</b></span>
-        <span class="chip">Реферальные 5% <b>0,56</b></span>
-        <span class="chip">Подписка hh <b>0,37</b></span>
-        <span class="chip">Прочее <b>0,05</b></span>
-      </div>
-      <p class="note">Реферальные — только с закрытых сделок (кто не продал, не стоит ничего). ФОТ брокера = его % мотивации.</p>
+      <p class="note">Реферальные — только с закрытых сделок (кто не продал, не стоит ничего). ФОТ брокера = его % мотивации. Маржа по источникам — доля компании по каналу найма.</p>
     </div>
+    <div id="eco-tip"></div>
 
     <div class="card" style="margin-top:18px">
       <p class="eyebrow">Расшифровка — из каких цифр считаем экономику</p>
-      <div class="gline"><span class="gk">Когорта</span><span>только брокеры, <b>нанятые в 2026</b> (22 чел.). Всё считается по ним — без сотрудников прошлых лет и без админ-персонала.</span></div>
+      <div class="gline"><span class="gk">Когорта</span><span>только брокеры, <b>нанятые в 2026</b> (20 чел.). Всё считается по ним — без сотрудников прошлых лет и без админ-персонала.</span></div>
       <div class="gline"><span class="gk">Выручка<br>17,2 млн</span><span><b>Доля компании (комиссия)</b> со всех сделок, закрытых этими брокерами с момента найма. Это деньги компании, а не полная сумма сделок клиентов.</span></div>
       <div class="gline"><span class="gk">− ФОТ<br>4,86 млн</span><span>Выплаты самим брокерам = их <b>% мотивации</b> с закрытых сделок. Переменная часть — платится только за результат.</span></div>
       <div class="gline"><span class="gk">= Маржа<br>12,4 млн</span><span><b>Выручка − ФОТ.</b> Сколько компания заработала на когорте <b>до</b> вычета затрат на их найм.</span></div>
@@ -297,6 +298,15 @@
       <div class="gline"><span class="gk">= Чистыми<br>10,4 млн</span><span><b>Маржа − затраты на найм.</b> Итог компании по когорте этого года.</span></div>
       <div class="gline read g"><span class="gk">Окупаемость<br>×6</span><span class="gv"><b>Маржа 12,4 ÷ затраты на найм 1,95 ≈ 6,4.</b> На каждый ₽, вложенный в найм, когорта уже вернула ~6 ₽ маржи. По мере адаптации новичков окупаемость вырастет.</span></div>
       <p class="note">Все суммы — снимок на текущую дату и растут по мере работы брокеров. «Выручка» здесь — доля/комиссия компании; если у вас она считается иначе (например, от полного объёма сделок), маржа и окупаемость пересчитываются от этой базы.</p>
+    </div>
+
+    <div class="card" style="margin-top:18px">
+      <p class="eyebrow">Экономика по каждому брокеру · когорта 2026 · наведите для деталей</p>
+      <p class="chart-t">Выручка = ФОТ + Затраты на найм + Чистая прибыль</p>
+      <div id="coh-chart" class="chartwrap"></div>
+      <div id="coh-legend" class="clegend" style="margin:6px 0 14px"></div>
+      <div id="coh-table" style="overflow-x:auto"></div>
+      <p class="note">Выручка — снимок из «Динамики дохода»; затраты на найм — из книги найма (стоимость брокера по месяцу выхода); <b>ФОТ — модельные 28,3%</b> от выручки (заменю на фактические, когда дашь колонку ФОТ). Показаны 8 брокеров с выручкой; ещё 12 из когорты — пока с нулевой выручкой (для них найм = чистый минус).</p>
     </div>
   </section>
 
@@ -1004,6 +1014,111 @@ function sha256(ascii){
       fill(L25,L26,brok,adm,hired26,true);
     })
     .catch(function(){ if(status){ status.className="src err"; status.textContent="Нет связи с таблицей — показан выверенный снимок на 08.09.2026."; } });
+})();
+</script>
+<script>
+/* ==== Экономика — 3 интерактивных SVG-графика ==== */
+(function(){
+  var C={olive:"#6B6B3A",oliveSoft:"#9A9A6A",good:"#3F6B3A",bad:"#B23A2E",ink:"#1C1A17",muted:"#6B6A5A",surface2:"#EDE8DA",faint:"#9A9A6A"};
+  var tip=document.getElementById("eco-tip"); if(!tip) return;
+  function moveTip(e){ var x=e.clientX+14,y=e.clientY+14,w=tip.offsetWidth,h=tip.offsetHeight;
+    if(x+w>window.innerWidth-8)x=e.clientX-w-14; if(y+h>window.innerHeight-8)y=e.clientY-h-14;
+    tip.style.left=x+"px"; tip.style.top=y+"px"; }
+  function wire(svg){ if(!svg)return; [].forEach.call(svg.querySelectorAll("[data-tip]"),function(el){
+    el.addEventListener("mousemove",function(e){ tip.innerHTML=el.getAttribute("data-tip"); tip.style.display="block"; moveTip(e); });
+    el.addEventListener("mouseleave",function(){ tip.style.display="none"; }); }); }
+  function fmt(v){ v=Math.abs(v); return (Math.round(v*100)/100).toString().replace(".",","); }
+
+  // 1 · Водопад
+  (function(){
+    var steps=[
+      {l:"Выручка",v:17.2,t:"total",c:C.olive,d:"Доля компании (комиссия) со всех сделок когорты 2026"},
+      {l:"− ФОТ",v:-4.86,t:"sub",c:C.bad,d:"Выплаты брокерам = их % мотивации (только за результат)"},
+      {l:"Маржа",v:12.4,t:"total",c:C.olive,d:"Выручка − ФОТ"},
+      {l:"− Найм",v:-1.95,t:"sub",c:C.bad,d:"ЗП рекрутеров + реферальные + hh + прочее"},
+      {l:"Чистыми",v:10.4,t:"total",c:C.good,d:"Маржа − затраты на найм — итог по когорте"}
+    ];
+    var W=560,base=170,top=22,max=17.2,plotH=base-top, n=steps.length, slot=(W-40)/n, bw=Math.min(60,slot*0.6), run=0, s="";
+    function y(v){ return base - v/max*plotH; }
+    for(var i=0;i<n;i++){ var st=steps[i], cx=40+slot*i+slot/2, x=cx-bw/2, y0,y1;
+      if(st.t==="total"){ y0=y(st.v); y1=base; run=st.v; } else { var p=run; run=p+st.v; y0=y(p); y1=y(run); }
+      var yy=Math.min(y0,y1), hgt=Math.max(3,Math.abs(y1-y0));
+      var tp="<b>"+st.l+" · "+(st.v<0?"−":"")+fmt(st.v)+" млн ₽</b><br>"+st.d;
+      s+='<rect x="'+x.toFixed(1)+'" y="'+yy.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+hgt.toFixed(1)+'" rx="4" fill="'+st.c+'" data-tip="'+tp+'"></rect>';
+      s+='<text x="'+cx.toFixed(1)+'" y="'+(yy-6).toFixed(1)+'" text-anchor="middle" font-size="12.5" font-weight="800" fill="'+C.ink+'">'+(st.v<0?"−":"")+fmt(st.v)+'</text>';
+      s+='<text x="'+cx.toFixed(1)+'" y="'+(base+17)+'" text-anchor="middle" font-size="11.5" fill="'+C.muted+'">'+st.l+'</text>';
+    }
+    var el=document.getElementById("eco-waterfall");
+    el.innerHTML='<svg viewBox="0 0 '+W+' 200" class="eco-svg" style="min-width:520px">'+s+'</svg>';
+    wire(el.querySelector("svg"));
+  })();
+
+  // горизонтальные бары (2 и 3)
+  function hbars(id,data,maxv){
+    var W=384, rowH=36, labelW=118, barMax=W-labelW-64, top=4, n=data.length, H=top+n*rowH, s="";
+    for(var i=0;i<n;i++){ var d=data[i], yc=top+i*rowH+rowH/2, by=top+i*rowH+7, bh=rowH-14, bw=maxv? d.v/maxv*barMax:0;
+      s+='<text x="0" y="'+yc+'" font-size="12" fill="'+C.ink+'" dominant-baseline="middle">'+d.n+'</text>';
+      s+='<rect x="'+labelW+'" y="'+by+'" width="'+barMax+'" height="'+bh+'" rx="4" fill="'+C.surface2+'"></rect>';
+      s+='<rect x="'+labelW+'" y="'+by+'" width="'+Math.max(2,bw).toFixed(1)+'" height="'+bh+'" rx="4" fill="'+d.c+'" data-tip="'+d.tip+'"></rect>';
+      s+='<text x="'+(labelW+barMax+6)+'" y="'+yc+'" font-size="12" font-weight="800" fill="'+C.ink+'" dominant-baseline="middle">'+d.lab+'</text>';
+    }
+    var el=document.getElementById(id);
+    el.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" class="eco-svg">'+s+'</svg>';
+    wire(el.querySelector("svg"));
+  }
+  var costs=[{n:"ЗП рекрутеров",v:0.97},{n:"Реферальные 5%",v:0.56},{n:"Подписка hh",v:0.37},{n:"Прочее",v:0.05}];
+  costs.forEach(function(d){ d.c=C.olive; d.lab=fmt(d.v); d.tip="<b>"+d.n+" · "+fmt(d.v)+" млн ₽</b><br>"+Math.round(d.v/1.95*100)+"% затрат на найм"; });
+  hbars("eco-costs",costs,0.97);
+  var src=[{n:"Рекомендация",v:7.5,c:C.olive},{n:"HH",v:4.4,c:C.oliveSoft},{n:"Прочие каналы",v:0,c:C.faint}];
+  src.forEach(function(d){ d.lab=fmt(d.v); d.tip="<b>"+d.n+" · маржа "+fmt(d.v)+" млн ₽</b><br>доля компании по каналу найма"; });
+  hbars("eco-sources",src,7.5);
+})();
+
+/* ==== Экономика по каждому брокеру (когорта 2026) ==== */
+(function(){
+  var chartBox=document.getElementById("coh-chart"), tableBox=document.getElementById("coh-table"), lg=document.getElementById("coh-legend");
+  if(!chartBox) return;
+  var tip=document.getElementById("eco-tip");
+  var C={good:"#3F6B3A",bad:"#B23A2E",warn:"#C77D2E",ink:"#1C1A17",surface2:"#EDE8DA"};
+  function wireTip(svg){ if(!svg||!tip)return; [].forEach.call(svg.querySelectorAll("[data-tip]"),function(el){
+    el.addEventListener("mousemove",function(e){ tip.innerHTML=el.getAttribute("data-tip"); tip.style.display="block";
+      var x=e.clientX+14,y=e.clientY+14; if(x+tip.offsetWidth>window.innerWidth-8)x=e.clientX-tip.offsetWidth-14; if(y+tip.offsetHeight>window.innerHeight-8)y=e.clientY-tip.offsetHeight-14; tip.style.left=x+"px"; tip.style.top=y+"px"; });
+    el.addEventListener("mouseleave",function(){ tip.style.display="none"; }); }); }
+  function mln(v){ return (v/1e6).toFixed(2).replace(".",",")+" млн"; }
+  function tys(v){ return Math.round(v/1000)+" тыс"; }
+  // [имя, выручка, ФОТ(модель 28,3%), найм(по месяцу выхода)] — маржа=выр−ФОТ, чистая=маржа−найм
+  var D=[
+    ["Лебедева Ю.",5737771,1623789,24578],
+    ["Власов А.",4149520,1174314,31323],
+    ["Кудинов В.",3199816,905548,24578],
+    ["Макаров П.",1621431,458865,24578],
+    ["Григорян О.",1124594,318260,24578],
+    ["Боев В.",704516,199378,31323],
+    ["Яцентюк А.",588558,166562,53026],
+    ["Богатова И.",104953,29702,31323]
+  ];
+  var rows=D.map(function(d){ var rev=d[1],fot=d[2],naim=d[3]; return {n:d[0],rev:rev,fot:fot,naim:naim,marzha:rev-fot,chist:rev-fot-naim}; });
+  rows.sort(function(a,b){ return b.rev-a.rev; });
+  var maxRev=rows[0].rev;
+  var W=620, labelW=104, barMax=W-labelW-104, rowH=32, top=6, H=top+rows.length*rowH+4, s="";
+  rows.forEach(function(r,i){
+    var y=top+i*rowH, by=y+6, bh=rowH-13, yc=y+rowH/2, x=labelW;
+    var wCh=r.chist/maxRev*barMax, wFot=r.fot/maxRev*barMax, wNa=r.naim/maxRev*barMax;
+    var tp="<b>"+r.n+"</b><br>Выручка: "+mln(r.rev)+"<br>ФОТ (28,3%): "+mln(r.fot)+"<br>Маржа: "+mln(r.marzha)+"<br>Найм: "+tys(r.naim)+"<br><b>Чистая: "+mln(r.chist)+"</b>";
+    s+='<text x="0" y="'+yc+'" font-size="11.5" fill="'+C.ink+'" dominant-baseline="middle">'+r.n+'</text>';
+    s+='<rect x="'+x.toFixed(1)+'" y="'+by+'" width="'+Math.max(1,wCh).toFixed(1)+'" height="'+bh+'" fill="'+C.good+'" data-tip="'+tp+'"></rect>'; x+=wCh;
+    s+='<rect x="'+x.toFixed(1)+'" y="'+by+'" width="'+Math.max(1,wFot).toFixed(1)+'" height="'+bh+'" fill="'+C.bad+'" data-tip="'+tp+'"></rect>'; x+=wFot;
+    s+='<rect x="'+x.toFixed(1)+'" y="'+by+'" width="'+Math.max(1,wNa).toFixed(1)+'" height="'+bh+'" fill="'+C.warn+'" data-tip="'+tp+'"></rect>';
+    s+='<text x="'+(labelW+barMax+6)+'" y="'+yc+'" font-size="11" font-weight="800" fill="'+C.ink+'" dominant-baseline="middle">'+mln(r.rev)+'</text>';
+  });
+  chartBox.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;max-width:660px;height:auto;overflow:visible;font-family:var(--sans)">'+s+'</svg>';
+  wireTip(chartBox.querySelector("svg"));
+  if(lg) lg.innerHTML='<span><span class="dot" style="background:'+C.good+'"></span> чистая прибыль</span><span><span class="dot" style="background:'+C.bad+'"></span> ФОТ</span><span><span class="dot" style="background:'+C.warn+'"></span> затраты на найм</span><span style="color:var(--faint)">длина столбца = выручка</span>';
+  var t='<table class="num"><thead><tr><th style="text-align:left">Брокер</th><th>Выручка</th><th>ФОТ</th><th>Маржа</th><th>Найм</th><th>Чистая</th></tr></thead><tbody>';
+  rows.forEach(function(r){ t+='<tr><td style="text-align:left">'+r.n+'</td><td>'+mln(r.rev)+'</td><td>'+mln(r.fot)+'</td><td>'+mln(r.marzha)+'</td><td>'+tys(r.naim)+'</td><td style="font-weight:800">'+mln(r.chist)+'</td></tr>'; });
+  var tot=rows.reduce(function(a,r){return {rev:a.rev+r.rev,fot:a.fot+r.fot,marzha:a.marzha+r.marzha,naim:a.naim+r.naim,chist:a.chist+r.chist};},{rev:0,fot:0,marzha:0,naim:0,chist:0});
+  t+='<tr style="border-top:2px solid var(--ink); font-weight:800"><td style="text-align:left">Итого (8)</td><td>'+mln(tot.rev)+'</td><td>'+mln(tot.fot)+'</td><td>'+mln(tot.marzha)+'</td><td>'+tys(tot.naim)+'</td><td>'+mln(tot.chist)+'</td></tr>';
+  if(tableBox) tableBox.innerHTML=t+'</tbody></table>';
 })();
 </script>
 </body>
