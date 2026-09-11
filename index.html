@@ -301,14 +301,14 @@
     </div>
 
     <div class="card" style="margin-top:18px">
-      <p class="eyebrow">Сравнение по каждому брокеру · все, кто работал в 2026 · наведите для деталей</p>
+      <p class="eyebrow">Сравнение по каждому брокеру · действующие сотрудники · 2026 · наведите для деталей</p>
       <p class="chart-t">Выручка = Чистая прибыль + ФОТ + Затраты на найм · сортировка по чистой прибыли</p>
       <div id="coh-sum" class="costs" style="margin:0 0 12px"></div>
       <div id="coh-controls" style="display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:0 0 12px; font-size:12.5px"></div>
       <div id="coh-chart" class="chartwrap"></div>
       <div id="coh-legend" class="clegend" style="margin:6px 0 14px"></div>
       <div id="coh-table" style="overflow-x:auto"></div>
-      <p class="note">Все брокеры с закрытыми сделками в 2026. Данные — из <b>реестра сделок «Всего реализовано 2026»</b>: выручка = сумма «Комиссия АН» (комиссия компании), <b>ФОТ = фактический</b> — по ставке брокера в каждой сделке (%, из реестра). Маржа = выручка − ФОТ. Затраты на найм — из книги найма, только у нанятых в 2026. Чистая = маржа − найм. «Эффективность» = чистая ÷ выручка. Наведите на столбец — детали по брокеру.</p>
+      <p class="note">Только <b>действующие</b> брокеры с закрытыми сделками в 2026 (уволенные исключены). Данные — из <b>реестра сделок «Всего реализовано 2026»</b>: выручка = сумма «Комиссия АН» (комиссия компании), <b>ФОТ = фактический</b> — по ставке брокера в каждой сделке (%, из реестра). Маржа = выручка − ФОТ. Затраты на найм — из книги найма, только у нанятых в 2026. Чистая = маржа − найм. «Эффективность» = чистая ÷ выручка. Наведите на столбец — детали по брокеру.</p>
     </div>
   </section>
 
@@ -1131,12 +1131,14 @@ function sha256(ascii){
     ["Чебан",341200,102360,0,"2",0,"Работает"]
   ];
 
+  var ACT=BK.filter(function(d){ return d[6]==="Работает"; }); // только действующие
+
   ctrl.innerHTML='<label style="display:inline-flex;align-items:center;gap:6px"><input type="checkbox" id="only-succ"> только успешные (выручка ≥ 1 млн)</label>'+
-    '<span style="color:var(--faint)">сортировка по чистой прибыли · ★ успешный</span>';
+    '<span style="color:var(--faint)">только действующие · сортировка по чистой прибыли · ★ успешный</span>';
 
   function render(){
     var onlySucc=document.getElementById("only-succ").checked;
-    var rows=BK.map(function(d){ var rev=d[1],fot=d[2],naim=d[3]; return {n:d[0],rev:rev,naim:naim,fot:fot,marzha:rev-fot,chist:rev-fot-naim,deals:d[4],stazh:d[5],st:d[6],succ:rev>=1e6,rate:rev?Math.round(fot/rev*100):0}; });
+    var rows=ACT.map(function(d){ var rev=d[1],fot=d[2],naim=d[3]; return {n:d[0],rev:rev,naim:naim,fot:fot,marzha:rev-fot,chist:rev-fot-naim,deals:d[4],stazh:d[5],st:d[6],succ:rev>=1e6,rate:rev?Math.round(fot/rev*100):0}; });
     if(onlySucc) rows=rows.filter(function(r){return r.succ;});
     rows.sort(function(a,b){ return b.chist-a.chist; });
     var maxRev=Math.max.apply(null,rows.map(function(r){return r.rev;}))||1;
@@ -1158,8 +1160,8 @@ function sha256(ascii){
 
     var tot=rows.reduce(function(a,r){return {rev:a.rev+r.rev,fot:a.fot+r.fot,marzha:a.marzha+r.marzha,naim:a.naim+r.naim,chist:a.chist+r.chist};},{rev:0,fot:0,marzha:0,naim:0,chist:0});
     if(sumBox) sumBox.innerHTML=
-      '<span class="chip">Брокеров с выручкой <b>'+BK.length+'</b></span>'+
-      '<span class="chip">Успешных ≥1 млн <b>'+BK.filter(function(d){return d[1]>=1e6;}).length+'</b></span>'+
+      '<span class="chip">Действующих с выручкой <b>'+ACT.length+'</b></span>'+
+      '<span class="chip">Успешных ≥1 млн <b>'+ACT.filter(function(d){return d[1]>=1e6;}).length+'</b></span>'+
       '<span class="chip">Выручка 2026 <b>'+mln(tot.rev)+' ₽</b></span>'+
       '<span class="chip">ФОТ факт <b>'+mln(tot.fot)+' ₽</b></span>'+
       '<span class="chip">Чистая <b>'+mln(tot.chist)+' ₽</b></span>';
